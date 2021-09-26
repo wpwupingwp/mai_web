@@ -18,7 +18,8 @@ def register():
     else:
         username = f.request.form['username']
         password = f.request.form['password']
-        return f.redirect(f.url_for('user', username=username, password=password))
+        return f.redirect(f.url_for('user', username=username, 
+                                    password=password))
 
 
 @app.route('/user/<username>')

@@ -7,27 +7,13 @@ app = Flask(__name__)
 
 @app.route('/')
 def index():
-    return '''
-    <h1>Index</h1>
-    <h2>Things</h2>
-    <li>lists</li>
-    <h2>Users</h2>
-    <li>user list</li>'''
+    return render_template('index.html')
 
 
 @app.route('/register', methods=('POST', 'GET'))
 def register():
     if request.method == 'GET':
-        return '''
-    <h1>New user</h1>
-    <form action="register" method="post">
-    <p>Name:<input type="text" name="username"/></p>
-    <p>Password:<input type="password" name="password"/></p>
-    <br/>
-    <input type="submit" value="Submit">
-    </form>
-    <a href="/register">Register</a>
-    '''
+        return render_template('login.html', action='register')
     else:
         username = request.form['username']
         password = request.form['password']
@@ -47,22 +33,12 @@ def admin():
         password = request.form['password']
         return redirect(url_for('user', username=username, password=password))
     else:
-        return '''
-    <h1>Login page</h1>
-    <form action="login" method="post">
-    <p>Name:<input type="text" name="username"/></p>
-    <p>Password:<input type="password" name="password"/></p>
-    <br/>
-    <input type="submit" value="Submit">
-    </form>
-    <a href="/register">Register</a>
-    '''
-    
+        return render_template('login.html', action='login')
 
 
-@app.route('/goods/<int:thing_id>')
-def goods(thing_id):
-    return render_template('goods.html')
+@app.route('/goods/<int:goods_id>')
+def goods(goods_id):
+    return render_template('goods.html', goods_id=goods_id)
 
 
 def a():

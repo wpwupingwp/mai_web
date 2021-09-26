@@ -8,17 +8,11 @@ from werkzeug.utils import secure_filename
 # import flask_mail
 # import flask_sqlalchemy
 
-global app
-app = f.Flask(__name__)
-app.secret_key = '2021'
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///mai.db'
-app.config['UPLOAD_FOLDER'] = Path('.').absolute() / 'upload'
-if not app.config['UPLOAD_FOLDER'].exists():
-    app.config['UPLOAD_FOLDER'].mkdir()
-
+from mai import app
 
 
 @app.route('/')
+@app.route('/index')
 def index():
     return f.render_template('index.html')
 
@@ -130,5 +124,3 @@ class Bid(db.Model):
     price = db.Column(db.Float)
 
 
-if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=2021)

@@ -52,7 +52,7 @@ def goods(goods_id):
 def upload_file():
     if f.request.method == 'POST':
         file = f.request.files['file']
-        print(file)
+        print(file.name)
         file.save(app.config['UPLOAD_FOLDER']/secure_filename(file.name))
         return 'Upload ok'
     return f.render_template('upload.html')

@@ -1,10 +1,5 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Register</title>
-</head>
-<body>
+{% extends "base.html" %}
+{% block content %}
 <h1>Register</h1>
 {% with messages = get_flashed_messages() %}
 {% if messages %}
@@ -22,10 +17,4 @@
     <input type="text" name="address"/><br>
     <input type="submit" value="Submit">
 </form>
-{% if error %}
-<p><strong>Error:</strong>{{error}}</p>
-{% endif %}
-</body>
-</html>
-</body>
-</html>
+{% endblock %}

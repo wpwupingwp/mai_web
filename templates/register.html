@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Register</title>
+</head>
+<body>
+<h1>Register</h1>
+{% with messages = get_flashed_messages() %}
+{% if messages %}
+{% for m in messages %}
+<p>{{message}}</p>
+{% endfor %}
+{% endif %}
+{% endwith %}
+<form action="{{request.path}}" method="post">
+    <label for="username">Email</label><br>
+    <input type="email" name="username"/><br>
+    <label for="password">Password</label><br>
+    <input type="password" name="password"/><br>
+    <label for="address">Address</label><br>
+    <input type="text" name="address"/><br>
+    <input type="submit" value="Submit">
+</form>
+{% if error %}
+<p><strong>Error:</strong>{{error}}</p>
+{% endif %}
+</body>
+</html>
+</body>
+</html>

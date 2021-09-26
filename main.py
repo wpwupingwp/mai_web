@@ -26,12 +26,13 @@ def index():
 @app.route('/register', methods=('POST', 'GET'))
 def register():
     if f.request.method == 'GET':
-        return f.render_template('login.html', action='register')
+        return f.render_template('register.html')
     else:
-        username = f.request.form['username']
-        password = f.request.form['password']
-        return f.redirect(f.url_for('user', username=username,
-                                    password=password))
+        user = User(**f.request.form)
+        db.session.add(user)
+        db.session.commit()
+        f.flash('Register OK')
+        return f.redirect('user')
 
 
 @app.route('/user/<username>')

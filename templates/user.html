@@ -5,9 +5,13 @@
     <title>Title</title>
 </head>
 <body>
-{% for message in get_flashed_messages() %}
-{{ message }}
+{% with messages = get_flashed_messages() %}
+{% if messages %}
+{% for m in messages %}
+<p>{{message}}</p>
 {% endfor %}
+{% endif %}
+{% endwith %}
 <h1>User page</h1>
 <table>
     <thead>

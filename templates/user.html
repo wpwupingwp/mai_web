@@ -5,8 +5,29 @@
     <title>Title</title>
 </head>
 <body>
+{% for message in get_flashed_messages() %}
+{{ message }}
+{% endfor %}
 <h1>User page</h1>
-<p>User: {{username}}</p>
-<p>ID: {{user_id}}</p>
+<table>
+    <thead>
+    <tr>
+        <th>ID</th>
+        <th>Name</th>
+        <th>Register date</th>
+        <th>Address</th>
+    </tr>
+    </thead>
+    <tbody>
+    {% for user in users %}
+    <tr>
+        <td>{{user.user_id}}</td>
+        <td>{{user.username}}</td>
+        <td>{{user.register_date}}</td>
+        <td>{{user.address}}</td>
+    {% endfor %}
+    </tr>
+    </tbody>
+</table>
 </body>
 </html>

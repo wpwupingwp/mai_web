@@ -1,0 +1,22 @@
+{% extends "base.html" %}
+{% block content %}
+<h1>Goods</h1>
+<form action="{{request.path}}" method="post">
+    {{form.csrf_token}}
+    {% for error in form.name.errors %}
+    <span style="color: blue;">[{{error}}]</span>
+    {% endfor %}
+    {{form.name.label}} {{form.name}}<br>
+    {{form.description.label}} {{form.description}}<br>
+    {{form.address.label}} {{form.address}}<br>
+    {{form.no_bid.label}} {{form.no_bid}}<br>
+    {{form.original_price.label}} {{form.original_price}}<br>
+    {{form.lowest_price.label}} {{form.lowest_price}}<br>
+    {{form.highest_price.label}} {{form.highest_price}}<br>
+    {{form.expired_date.label}} {{form.expired_date}}<br>
+    {{form.photo1.label}} {{form.photo1}}<br>
+    {{form.photo2.label}} {{form.photo2}}<br>
+    {{form.photo3.label}} {{form.photo3}}<br>
+    <input type="submit" value="Submit">
+</form>
+{% endblock %}

@@ -1,20 +1,15 @@
 {% extends "base.html" %}
 {% block content %}
 <h1>Register</h1>
-{% with messages = get_flashed_messages() %}
-{% if messages %}
-{% for m in messages %}
-<p>{{message}}</p>
-{% endfor %}
-{% endif %}
-{% endwith %}
 <form action="{{request.path}}" method="post">
-    <label for="username">Email</label><br>
-    <input type="email" name="username"/><br>
-    <label for="password">Password</label><br>
-    <input type="password" name="password"/><br>
-    <label for="address">Address</label><br>
-    <input type="text" name="address"/><br>
+    {{form.csrf_token}}
+    {% for error in form.username.errors %}
+    <span style="color: blue;">[{{error}}]</span>
+    {% endfor %}
+    {{form.username.label}} {{form.username}}
+    {{form.password.label}} {{form.password}}
+    {{form.password2.label}} {{form.password2}}
+    {{form.address.label}} {{form.address}}
     <input type="submit" value="Submit">
 </form>
 {% endblock %}

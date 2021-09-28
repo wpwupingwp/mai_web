@@ -10,6 +10,7 @@ from werkzeug.utils import secure_filename
 
 from mai import app
 from mai.database import *
+from mai.form import UserForm, GoodsForm
 
 
 @app.route('/')
@@ -20,14 +21,34 @@ def index():
 
 @app.route('/register', methods=('POST', 'GET'))
 def register():
-    if f.request.method == 'GET':
-        return f.render_template('register.html')
-    else:
-        user = User(**f.request.form)
+    uf = UserForm()
+    if uf.validate_on_submit():
+        user = User(uf.username.data, uf.password.data, uf.address.data)
         db.session.add(user)
         db.session.commit()
         f.flash('Register OK')
+        print('ok')
         return f.redirect('user')
+    return f.render_template('register.html', form=uf)
+
+
+@app.route('/add_goods', methods=('POST', 'GET'))
+def add_goods():
+    gf = GoodsForm()
+    if gf.validate_on_submit():
+        goods = Goods(gf)
+        db.session.add(goods)
+        db.session.commit()
+        f.flash('添加物品成功')
+        print('ok')
+        return f.redirect('goods')
+    return f.render_template('add_goods.html', form=gf)
+
+
+@app.route('/goods')
+def goods():
+    # ? add paginate
+    return f.render_template('add_goods.html', goods=Goods.query.all())
 
 
 @app.route('/user/<username>')
@@ -58,9 +79,6 @@ def admin():
         return f.render_template('login.html', action='login', error=error)
 
 
-@app.route('/goods/<int:goods_id>')
-def goods(goods_id):
-    return f.render_template('goods.html', goods_id=goods_id)
 
 
 @app.route('/upload', methods=('GET', 'POST'))

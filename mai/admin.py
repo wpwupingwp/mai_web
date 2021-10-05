@@ -12,7 +12,9 @@ admin = f.Blueprint('admin', __name__)
 
 @lm.user_loader
 def load_user(user_id):
-    return User.query.get(user_id)
+    user = User.query.get(user_id)
+    return user
+
 
 
 @admin.route('/login', methods=('POST', 'GET'))
@@ -23,16 +25,19 @@ def login():
     if lf.validate_on_submit():
         user = User.query.filter_by(username=lf.username.data,
                                     password=lf.password.data).first()
-        fl.login_user(user)
-        f.flash(f'登陆成功 userid={user.user_id:06d}')
-        print(user)
-        return f.redirect('/index')
+        if user is None:
+            f.flash('用户不存在')
+        else:
+            fl.login_user(user)
+            f.flash(f'登陆成功')
+            return f.redirect('/index')
     return f.render_template('login.html', form=lf)
 
 
 @admin.route('/logout', methods=('POST', 'GET'))
 @fl.login_required
 def logout():
+    fl.logout_user()
     return f.redirect('/index')
 
 

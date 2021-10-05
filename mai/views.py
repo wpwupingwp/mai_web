@@ -9,6 +9,12 @@ from mai.database import User, Goods, Bid, db
 from mai.admin import admin
 
 
+@lm.user_loader
+def load_user(user_id):
+    user = User.query.get(user_id)
+    return user
+
+
 @app.route('/')
 @app.route('/index')
 def index():

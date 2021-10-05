@@ -8,12 +8,13 @@ from wtforms import validators as v
 
 class UserForm(FlaskForm):
     username = m.StringField('邮箱', validators=[
-        v.input_required(), v.email()])
+        v.input_required(), v.email('无效的邮箱地址')])
     password = m.PasswordField('密码', validators=[
         v.input_required(), v.length(min=4)])
     password2 = m.PasswordField('密码确认', validators=[
         v.input_required(), v.equal_to('password'), v.length(min=4)])
     address = m.StringField('地址', validators=[v.input_required()])
+    submit = m.SubmitField('提交')
 
 
 class LoginForm(FlaskForm):
@@ -21,6 +22,7 @@ class LoginForm(FlaskForm):
         v.input_required(), v.email()])
     password = m.PasswordField('密码', validators=[
         v.input_required(), v.length(min=4)])
+    submit = m.SubmitField('提交')
 
 
 class GoodsForm(FlaskForm):
@@ -37,3 +39,4 @@ class GoodsForm(FlaskForm):
     photo1 = m.FileField('照片')
     photo2 = m.FileField('照片')
     photo3 = m.FileField('照片')
+    submit = m.SubmitField('提交')

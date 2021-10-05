@@ -12,15 +12,20 @@ admin = f.Blueprint('admin', __name__)
 
 @lm.user_loader
 def load_user(user_id):
-    return User.query.get(int(user_id))
+    return User.query.get(user_id)
 
 
 @admin.route('/login', methods=('POST', 'GET'))
 def login():
+    #if f.g.user is not None and f.g.user.is_authenticated():
+    #    return f.redirect('/index')
     lf = LoginForm()
     if lf.validate_on_submit():
-        fl.login_user(User)
-        f.flash('登陆成功')
+        user = User.query.filter_by(username=lf.username.data,
+                                    password=lf.password.data).first()
+        fl.login_user(user)
+        f.flash(f'登陆成功 userid={user.user_id:06d}')
+        print(user)
         return f.redirect('/index')
     return f.render_template('login.html', form=lf)
 
@@ -33,14 +38,16 @@ def logout():
 
 @admin.route('/register', methods=('POST', 'GET'))
 def register():
+    print(f.request.path)
     uf = UserForm()
     if uf.validate_on_submit():
         user = User(uf.username.data, uf.password.data, uf.address.data)
         db.session.add(user)
         db.session.commit()
-        f.flash('Register OK')
-        print('ok')
-        return f.redirect('user')
+        f.flash('注册成功')
+        return f.redirect('/index')
+    else:
+        print('bad form')
     return f.render_template('register.html', form=uf)
 
 

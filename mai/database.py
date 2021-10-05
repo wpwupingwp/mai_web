@@ -21,7 +21,7 @@ class User(db.Model, UserMixin):
     address = db.Column(db.String(100))
     bider_id = db.relationship('Bid', backref='user')
 
-    def __init__(self, username, password, address):
+    def __init__(self, username, password, address=''):
         self.username = username
         self.password = password
         self.register_date = datetime.utcnow()
@@ -30,23 +30,11 @@ class User(db.Model, UserMixin):
     def __repr__(self):
         return f'{self.username}'
 
+    def get_id(self):
+        return str(self.user_id)
 
 
 class Goods(db.Model):
-    @property
-    def is_authenticated(self):
-        return True
-
-    @property
-    def is_active(self):
-        return True
-
-    @property
-    def is_anonymous(self):
-        return False
-
-    def get_id(self):
-        return str(self.user_id)
     __tablename__ = 'goods'
     goods_id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(100), nullable=False)

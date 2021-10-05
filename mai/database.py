@@ -2,6 +2,7 @@
 
 from datetime import datetime
 from flask_sqlalchemy import SQLAlchemy
+from werkzeug.utils import secure_filename
 
 from mai import app
 from mai.form import GoodsForm
@@ -28,6 +29,21 @@ class User(db.Model):
     def __repr__(self):
         return f'{self.username}'
 
+    @property
+    def is_authenticated(self):
+        return True
+
+    @property
+    def is_active(self):
+        return True
+
+    @property
+    def is_anonymous(self):
+        return False
+
+    def get_id(self):
+        return str(self.user_id)
+
 
 class Goods(db.Model):
     __tablename__ = 'goods'
@@ -41,15 +57,15 @@ class Goods(db.Model):
     highest_price = db.Column(db.Float, nullable=False)
     lowest_price = db.Column(db.Float, nullable=False)
     pub_date = db.Column(db.DateTime)
-    expired_date = db.Column(db.DateTime)
-    photo1 = db.Column(db.LargeBinary)
-    photo2 = db.Column(db.LargeBinary)
-    photo3 = db.Column(db.LargeBinary)
+    expired_date = db.Column(db.Date)
+    photo1 = db.Column(db.String(100))
+    photo2 = db.Column(db.String(100))
+    photo3 = db.Column(db.String(100))
 
     def __init__(self, form):
         if isinstance(form, GoodsForm):
             self.name = form.name.data
-            self.description = form.description.data,
+            self.description = ''.join(form.description.data)
             self.address = form.address.data
             self.no_bid = form.no_bid.data
             self.original_price = form.original_price.data
@@ -57,14 +73,14 @@ class Goods(db.Model):
             self.lowest_price = form.lowest_price.data
             self.expired_date = form.expired_date.data
             self.pub_data = datetime.utcnow()
-            if form.photo1.data is not None:
-                self.photo1 = form.photo1.data
-            if form.photo2.data is not None:
-                self.photo2 = form.photo1.data
-            if form.photo3.data is not None:
-                self.photo3 = form.photo1.data
-
-    pass
+            if form.photo1.data:
+                self.photo1 = secure_filename(form.photo1.data.filename)
+            if form.photo2.data:
+                self.photo2 = secure_filename(form.photo2.data.filename)
+            if form.photo3.data:
+                self.photo3 = secure_filename(form.photo3.data.filename)
+        else:
+            print(form)
 
 
 class Bid(db.Model):

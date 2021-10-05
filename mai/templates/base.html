@@ -1,26 +1,54 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="zh">
 <head>
-    <meta charset="UTF-8">
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    {% block style %}
+        {{ bootstrap.load_css() }}
+    {% endblock %}
     {% if title %}
-    <title>{{title}}</title>
+        <title>{{title}}</title>
     {% else %}
-    <title>Mai</title>
+        <title>我的杂货铺</title>
     {% endif %}
 </head>
 <body>
-{% with messages = get_flashed_messages() %}
-{% if messages %}
-{% for m in messages %}
-<p>{{message}}</p>
-{% endfor %}
-{% endif %}
-{% endwith %}
-<hr>
-{% block content %}{% endblock %}
-<hr>
-{% if error %}
-<p><strong>Error:</strong>{{error}}</p>
-{% endif %}
+    {% with messages = get_flashed_messages() %}
+        {% if messages %}
+            {% for m in messages %}
+                <p>{{message}}</p>
+            {% endfor %}
+        {% endif %}
+    {% endwith %}
+    {% block navbar %}
+    <div class="container">
+        <nav class="navbar navbar-expand-lg navbar-light bg-light">
+            <a class="navbar-brand" href="#">Mai web</a>
+            <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                <span class="navbar-toggler-icon"></span>
+            </button>
+            <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                <ul class="navbar-nav mr-auto">
+                    <li><a href="/goods">商品列表|</a></li>
+                    <li><a href="/user">用户列表|</a></li>
+                    <li><a href="/admin/add_goods">添加商品|</a></li>
+                    <li><a href="/admin/register">注册新用户|</a></li>
+                    <li><a href="/admin/login">登录</a></li>
+                </ul>
+            </div>
+        </nav>
+    </div>
+    {% endblock navbar %}
+    {% block content %}{% endblock %}
+    {% if error %}
+        <p><strong>Error:</strong>{{error}}</p>
+    {% endif %}
+    {% block script %}
+        {{ bootstrap.load_js() }}
+    {% endblock %}
 </body>
+{% if request.path != "/index" %}
+<a href="/index">返回主页</a><br>
+{% endif %}
+<footer>Power by Flask</footer>
 </html>

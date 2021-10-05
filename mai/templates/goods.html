@@ -3,15 +3,15 @@
 <h1>Goods page</h1>
 {% for g in goods %}
 <hr>
-ID {{goods.goods_id}}<br>
-名称 {{goods.name}}<br>
-描述 {{goods.description}}<br>
-地址 {{goods.address}}<br>
-讲价 {{goods.no_bid}}<br>
-原价 {{goods.original_price}}
-最低价 {{goods.lowest_price}}
-最高价 {{goods.highest_price}}
-过期时间 {{goods.expired_date}}
-图片 {{goods.photo1}} {{goods.photo2}} {{goods.photo3}}<br>
+ID {{g.goods_id}}<br>
+名称 {{g.name}}<br>
+描述 {{g.description}}<br>
+地址 {{g.address}}<br>
+讲价 {{g.no_bid}}<br>
+原价 {{g.original_price}}
+最低价 {{g.lowest_price}}
+最高价 {{g.highest_price}}
+过期时间 {{g.expired_date}}
+图片 <img src="{{g.photo1}}" /> {{g.photo2}} {{g.photo3}}<br>
 {% endfor %}
 {% endblock %}

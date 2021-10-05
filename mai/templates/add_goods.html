@@ -1,13 +1,4 @@
 {% extends "base.html" %}
 {% block content %}
 <h1>Goods</h1>
-<form action="{{request.path}}" method="post" enctype="multipart/form-data">
-    {{form.csrf_token}}
-    {% for error in form.errors.items() %}
-    <span style="color: blue;">[{{error}}]</span><br>
-    {% endfor %}
-    {% from 'bootstrap/form.html' import render_form %}
-    {{render_form(form)}}
-    <input type="submit" value="提交">
-</form>
 {% endblock %}

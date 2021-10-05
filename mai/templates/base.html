@@ -46,6 +46,20 @@
     {% block script %}
         {{ bootstrap.load_js() }}
     {% endblock %}
+    {% if form %}
+        {% block form %}
+        {% from 'bootstrap/form.html' import render_form %}
+        {% for error in form.errors.items() %}
+        <span style="color: blue;">[{{error}}]</span><br>
+        {% endfor %}
+        <form action="{{request.path}}" method="post">
+            {{form.csrf_token}}
+            {{render_form(form)}}
+            <input type="submit" value="提交">
+        </form>
+        {% endblock %}
+    {% endif %}
+
 </body>
 {% if request.path != "/index" %}
 <a href="/index">返回主页</a><br>

@@ -19,7 +19,7 @@ def load_user(user_id):
 def login():
     lf = LoginForm()
     if lf.validate_on_submit():
-        fl.login_user(user)
+        fl.login_user(User)
         f.flash('登陆成功')
         return f.redirect('/index')
     return f.render_template('login.html', form=lf)

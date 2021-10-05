@@ -1,13 +1,2 @@
 {% extends "base.html" %}
-{% block content %}
-{% from 'bootstrap/form.html' import render_form %}
 <h1>Register</h1>
-{% for error in form.errors.items() %}
-<span style="color: blue;">[{{error}}]</span><br>
-{% endfor %}
-<form action="{{request.path}}" method="post">
-    {{form.csrf_token}}
-    {{render_form(form)}}
-    <input type="submit" value="Submit">
-</form>
-{% endblock %}

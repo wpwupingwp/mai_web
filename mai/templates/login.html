@@ -1,18 +1,6 @@
 {% extends "base.html" %}
 {% block content %}
 <h1>登录</h1>
-{% from 'bootstrap/form.html' import render_form %}
-{% for error in form.errors.items() %}
-    <span style="color: blue;">[{{error}}]</span><br>
-{% endfor %}
-<form action="{{request.path}}" method="post">
-    {{form.csrf_token}}
-    {{render_form(form)}}
-    <input type="submit" value="确定">
-</form>
 <br/>
 <a href="/register">Register</a>
-{% if error %}
-<p><strong>Error:</strong>{{error}}</p>
-{% endif %}
 {% endblock %}

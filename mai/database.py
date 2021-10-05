@@ -2,6 +2,7 @@
 
 from datetime import datetime
 from flask_sqlalchemy import SQLAlchemy
+from flask_login import UserMixin
 from werkzeug.utils import secure_filename
 
 from mai import app
@@ -10,7 +11,7 @@ from mai.form import GoodsForm
 db = SQLAlchemy(app)
 
 
-class User(db.Model):
+class User(db.Model, UserMixin):
     __tablename__ = 'user'
     user_id = db.Column(db.Integer, primary_key=True)
     # email
@@ -29,6 +30,9 @@ class User(db.Model):
     def __repr__(self):
         return f'{self.username}'
 
+
+
+class Goods(db.Model):
     @property
     def is_authenticated(self):
         return True
@@ -43,9 +47,6 @@ class User(db.Model):
 
     def get_id(self):
         return str(self.user_id)
-
-
-class Goods(db.Model):
     __tablename__ = 'goods'
     goods_id = db.Column(db.Integer, primary_key=True)
     name = db.Column(db.String(100), nullable=False)

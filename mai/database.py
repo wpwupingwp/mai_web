@@ -49,8 +49,9 @@ class Goods(db.Model):
     photo1 = db.Column(db.String(100))
     photo2 = db.Column(db.String(100))
     photo3 = db.Column(db.String(100))
+    user_id = db.Column(db.Integer, nullable=False)
 
-    def __init__(self, form):
+    def __init__(self, form, user_id):
         if isinstance(form, GoodsForm):
             self.name = form.name.data
             self.description = ''.join(form.description.data)
@@ -61,6 +62,7 @@ class Goods(db.Model):
             self.lowest_price = form.lowest_price.data
             self.expired_date = form.expired_date.data
             self.pub_data = datetime.utcnow()
+            self.user_id = user_id
         else:
             print(form)
 

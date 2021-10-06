@@ -83,7 +83,7 @@ def upload(data, path) -> str:
 def add_goods():
     gf = GoodsForm()
     if gf.validate_on_submit():
-        goods = Goods(gf)
+        goods = Goods(gf, fl.current_user.user_id)
         goods.photo1 = upload(gf.photo1.data, img_path)
         goods.photo2 = upload(gf.photo2.data, img_path)
         goods.photo3 = upload(gf.photo3.data, img_path)
@@ -92,6 +92,4 @@ def add_goods():
         f.flash('添加物品成功')
         print('ok')
         return f.redirect('/goods')
-    else:
-        print(gf.errors)
     return f.render_template('add_goods.html', form=gf)

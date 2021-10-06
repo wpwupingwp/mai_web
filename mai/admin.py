@@ -93,3 +93,19 @@ def add_goods():
         print('ok')
         return f.redirect('/goods')
     return f.render_template('add_goods.html', form=gf)
+
+
+@fl.login_required
+@admin.route('/goods/<int:user_id>')
+def my_goods(user_id):
+    if fl.current_user.is_anonymous:
+        f.flash('请登录')
+        return f.redirect('/admin/login')
+    if user_id != fl.current_user.user_id:
+        f.flash('仅可查看自己的商品')
+        #return f.redirect(f.url_for('admin.login'))
+        user_id = fl.current_user.user_id
+    return f.render_template('goods.html', goods=Goods.query.filter_by(
+        user_id=user_id))
+
+

@@ -31,6 +31,7 @@
                     <li><a href="/goods">商品列表|</a></li>
                     <li><a href="/user">用户列表|</a></li>
                     {% if current_user.is_authenticated %}
+                        <li><a href="/admin/goods/{{current_user.user_id}}">我的商品|</a></li>
                         <li><a href="/admin/add_goods">添加商品|</a></li>
                         <li><a href="/admin/logout">退出</a></li>
                     {% else %}

@@ -2,13 +2,15 @@
 
 import flask as f
 import flask_login as fl
-import flask_uploads as fu
+from werkzeug.utils import secure_filename
 
-from mai import lm, photos
+from mai import lm, root
 from mai.form import UserForm, GoodsForm, LoginForm
 from mai.database import User, Goods, db
 
 admin = f.Blueprint('admin', __name__)
+# cannot use photos.url
+img_path = root / 'upload' / 'img'
 
 
 @lm.user_loader
@@ -64,11 +66,12 @@ def add_goods():
     if gf.validate_on_submit():
         goods = Goods(gf)
         if gf.photo1.data is not None:
-            fname1 = photos.save(gf.photo1.data)
-            print(fname1)
-            print(type(gf.photo1.data))
-            furl1 = photos.url(fname1)
-            print(furl1)
+            # relative path
+            fname1 = secure_filename(gf.photo1.data.filename)
+            # absolute path
+            gf.photo1.data.save(img_path/fname1)
+            # relative path
+            furl1 = f.url_for('uploaded_file', filename=fname1)
             goods.photo1 = furl1
         db.session.add(goods)
         db.session.commit()

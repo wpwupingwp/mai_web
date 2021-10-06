@@ -5,17 +5,21 @@ from pathlib import Path
 
 # import flask_mail
 
-from mai import app, lm
+from mai import app, lm, root
 from mai.database import User, Goods, Bid, db
 from mai.admin import admin
 
-root = Path(app.root_path)
+
+@app.route('/uploads/<filename>')
+def uploaded_file(filename):
+    return f.send_from_directory(app.config['UPLOADED_PHOTOS_DEST'], filename)
 
 
 @lm.user_loader
 def load_user(user_id):
     user = User.query.get(user_id)
     return user
+
 
 @app.route('/favicon.ico')
 def favicon():

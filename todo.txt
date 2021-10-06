@@ -1,0 +1,6 @@
+desc
+flask-admin
+flask-mail
+pager
+style
+deploy

@@ -15,5 +15,5 @@
         图片 <img src="{{g.photo1}}" /> <img src="{{g.photo2}}"> <img src="{{g.photo3}}"><br>
     {% endfor %}
 {% from 'bootstrap/pagination.html' import render_pagination %}
-{{render_pagination(pagination)}}
+{{render_pagination(pagination, align='center', size='lg')}}
 {% endblock %}

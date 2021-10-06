@@ -59,20 +59,34 @@ def register():
     return f.render_template('register.html', form=uf)
 
 
+def upload(data, path) -> str:
+    """
+    Return '' if not exists.
+    Args:
+        data: request.file.data
+        path: str
+    Returns: str
+    """
+    if data is None:
+        return ''
+    # relative path
+    filename = secure_filename(data.filename)
+    # absolute path
+    data.save(path/filename)
+    # relative path
+    url = f.url_for('uploaded_file', filename=filename)
+    return url
+
+
 @admin.route('/add_goods', methods=('POST', 'GET'))
 @fl.login_required
 def add_goods():
     gf = GoodsForm()
     if gf.validate_on_submit():
         goods = Goods(gf)
-        if gf.photo1.data is not None:
-            # relative path
-            fname1 = secure_filename(gf.photo1.data.filename)
-            # absolute path
-            gf.photo1.data.save(img_path/fname1)
-            # relative path
-            furl1 = f.url_for('uploaded_file', filename=fname1)
-            goods.photo1 = furl1
+        goods.photo1 = upload(gf.photo1.data, img_path)
+        goods.photo2 = upload(gf.photo2.data, img_path)
+        goods.photo3 = upload(gf.photo3.data, img_path)
         db.session.add(goods)
         db.session.commit()
         f.flash('添加物品成功')

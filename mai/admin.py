@@ -43,9 +43,12 @@ def logout():
 
 @admin.route('/register', methods=('POST', 'GET'))
 def register():
-    print(f.request.path)
     uf = UserForm()
     if uf.validate_on_submit():
+        username = User.query.filter_by(username=uf.username.data).first()
+        if username is not None:
+            f.flash('用户名已注册')
+            return f.render_template('register.html', form=uf)
         user = User(uf.username.data, uf.password.data, uf.address.data)
         db.session.add(user)
         db.session.commit()

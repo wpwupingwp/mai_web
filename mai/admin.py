@@ -105,7 +105,7 @@ def my_goods(user_id):
         f.flash('仅可查看自己的商品')
         #return f.redirect(f.url_for('admin.login'))
         user_id = fl.current_user.user_id
-    return f.render_template('goods.html', goods=Goods.query.filter_by(
-        user_id=user_id))
+    return f.render_template('goods.html', goods=Goods.query.order_by(
+        Goods.pub_date.desc()).filter_by(user_id=user_id))
 
 

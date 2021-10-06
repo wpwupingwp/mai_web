@@ -34,15 +34,16 @@ def index():
 
 
 @app.route('/goods')
-def goods():
-    # ? add paginate
-    return f.render_template('goods.html', goods=Goods.query.all())
+@app.route('/goods/<int:page>')
+def goods(page=1):
+    per_page = 2
+    pagination = Goods.query.paginate(page=page, per_page=per_page)
+    return f.render_template('goods.html', pagination=pagination)
 
 
 @app.route('/user')
 def user():
     # bootstrap requires same function name?
-    print(User.query.all())
     return f.render_template('user.html', users=User.query.all())
 
 

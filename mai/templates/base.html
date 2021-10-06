@@ -33,7 +33,7 @@
                     {% if current_user.is_authenticated %}
                         <li><a href="/admin/goods/{{current_user.user_id}}">我的商品|</a></li>
                         <li><a href="/admin/add_goods">添加商品|</a></li>
-                        <li><a href="/admin/logout">退出</a></li>
+                        <li><a href="/admin/logout">退出({{current_user.username}})</a></li>
                     {% else %}
                         <li><a href="/admin/register">注册|</a></li>
                         <li><a href="/admin/login">登录</a></li>

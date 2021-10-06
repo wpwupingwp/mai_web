@@ -1,7 +1,7 @@
 {% extends "base.html" %}
 {% block content %}
     <h1>Goods page</h1>
-    {% for g in goods %}
+    {% for g in pagination.items %}
         <hr>
         ID {{g.goods_id}}<br>
         名称 {{g.name}}<br>
@@ -14,4 +14,6 @@
         过期时间 {{g.expired_date}}
         图片 <img src="{{g.photo1}}" /> <img src="{{g.photo2}}"> <img src="{{g.photo3}}"><br>
     {% endfor %}
+{% from 'bootstrap/pagination.html' import render_pagination %}
+{{render_pagination(pagination)}}
 {% endblock %}

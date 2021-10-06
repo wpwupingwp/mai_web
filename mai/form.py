@@ -1,9 +1,12 @@
 #!/usr/bin/python3
 
 from flask_wtf import FlaskForm
+from flask_wtf.file import FileField, FileAllowed
 import wtforms as m
-from wtforms.fields.html5 import DateField
 from wtforms import validators as v
+from wtforms.fields.html5 import DateField
+
+from mai import photos
 
 
 class UserForm(FlaskForm):
@@ -35,8 +38,7 @@ class GoodsForm(FlaskForm):
     lowest_price = m.FloatField('最低价', validators=[v.input_required()])
     highest_price = m.FloatField('最高价', validators=[v.input_required()])
     expired_date = DateField('截止时间')
-    #expired_date = DateField('截止时间', format='%Y/%m/%d')
-    photo1 = m.FileField('照片')
-    photo2 = m.FileField('照片')
-    photo3 = m.FileField('照片')
+    photo1 = FileField('照片1', validators=[FileAllowed(photos, '不支持的格式')])
+    photo2 = FileField('照片2', validators=[FileAllowed(photos, '不支持的格式')])
+    photo3 = FileField('照片3', validators=[FileAllowed(photos, '不支持的格式')])
     submit = m.SubmitField('提交')

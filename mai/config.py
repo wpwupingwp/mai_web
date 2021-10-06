@@ -1,14 +1,16 @@
 #!/usr/bin/python3
-
 from pathlib import Path
 
+from mai import root
 
-cwd = Path.cwd().absolute()
+
 SQLALCHEMY_DATABASE_URI = 'sqlite:///mai.db'
-UPLOAD_FOLDER = cwd / 'upload'
-if not UPLOAD_FOLDER.exists():
-    UPLOAD_FOLDER.mkdir()
 # max filesize 10mb
 MAX_CONTENT_LENGTH = 10 * 1024 * 1024
 CSRF_ENABLED = True
 SECRET_KEY = '2021'
+UPLOAD_FOLDER = root / 'upload'
+UPLOADED_PHOTOS_DEST = UPLOAD_FOLDER / 'img'
+for i in UPLOAD_FOLDER, UPLOADED_PHOTOS_DEST:
+    if not i.exists():
+        i.mkdir()

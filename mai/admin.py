@@ -2,9 +2,9 @@
 
 import flask as f
 import flask_login as fl
-from werkzeug import secure_filename
+import flask_uploads as fu
 
-from mai import lm
+from mai import lm, photos
 from mai.form import UserForm, GoodsForm, LoginForm
 from mai.database import User, Goods, db
 
@@ -15,7 +15,6 @@ admin = f.Blueprint('admin', __name__)
 def load_user(user_id):
     user = User.query.get(user_id)
     return user
-
 
 
 @admin.route('/login', methods=('POST', 'GET'))
@@ -61,11 +60,18 @@ def add_goods():
     gf = GoodsForm()
     if gf.validate_on_submit():
         goods = Goods(gf)
+        if gf.photo1.data is not None:
+            fname1 = photos.save(gf.photo1.data)
+            print(fname1)
+            print(type(gf.photo1.data))
+            furl1 = photos.url(fname1)
+            print(furl1)
+            goods.photo1 = furl1
         db.session.add(goods)
         db.session.commit()
         f.flash('添加物品成功')
         print('ok')
-        return f.redirect('goods')
+        return f.redirect('/goods')
     else:
         print(gf.errors)
     return f.render_template('add_goods.html', form=gf)

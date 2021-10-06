@@ -3,7 +3,6 @@
 from datetime import datetime
 from flask_sqlalchemy import SQLAlchemy
 from flask_login import UserMixin
-from werkzeug.utils import secure_filename
 
 from mai import app
 from mai.form import GoodsForm
@@ -62,12 +61,6 @@ class Goods(db.Model):
             self.lowest_price = form.lowest_price.data
             self.expired_date = form.expired_date.data
             self.pub_data = datetime.utcnow()
-            if form.photo1.data:
-                self.photo1 = secure_filename(form.photo1.data.filename)
-            if form.photo2.data:
-                self.photo2 = secure_filename(form.photo2.data.filename)
-            if form.photo3.data:
-                self.photo3 = secure_filename(form.photo3.data.filename)
         else:
             print(form)
 

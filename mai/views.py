@@ -42,9 +42,11 @@ def goods(page=1):
 
 
 @app.route('/user')
-def user():
-    # bootstrap requires same function name?
-    return f.render_template('user.html', users=User.query.all())
+@app.route('/user/<int:page>')
+def user(page=1):
+    per_page = 3
+    pagination = User.query.paginate(page=page, per_page=per_page)
+    return f.render_template('user.html', pagination=pagination)
 
 
 @app.route('/user/<username>')

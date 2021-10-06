@@ -2,6 +2,7 @@
 
 import flask as f
 import flask_login as fl
+from werkzeug import secure_filename
 
 from mai import lm
 from mai.form import UserForm, GoodsForm, LoginForm
@@ -51,8 +52,6 @@ def register():
         db.session.commit()
         f.flash('注册成功')
         return f.redirect('/index')
-    else:
-        print('bad form')
     return f.render_template('register.html', form=uf)
 
 

@@ -20,7 +20,7 @@
             {% endif %}
     {% endwith %}
     {% block navbar %}
-    <div class="container-fluid">
+    <div>
         <nav class="navbar navbar-expand-lg navbar-light bg-light">
             <a class="navbar-brand" href="#">@_@</a>
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -30,11 +30,11 @@
                 <ul class="navbar-nav mr-auto">
                     <li><a href="/goods">商品列表|</a></li>
                     <li><a href="/user">用户列表|</a></li>
-                    <li><a href="/admin/add_goods">添加商品|</a></li>
-                    <li><a href="/admin/register">注册新用户|</a></li>
                     {% if current_user.is_authenticated %}
+                        <li><a href="/admin/add_goods">添加商品|</a></li>
                         <li><a href="/admin/logout">退出</a></li>
                     {% else %}
+                        <li><a href="/admin/register">注册|</a></li>
                         <li><a href="/admin/login">登录</a></li>
                     {% endif %}
                 </ul>

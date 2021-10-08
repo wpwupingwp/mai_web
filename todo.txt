@@ -4,3 +4,5 @@ flask-mail
 pager
 style
 deploy
+flask-migrate
+static css/js

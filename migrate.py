@@ -1,7 +1,4 @@
-from mai.database import db, User, Goods
-
-db.drop_all()
-db.create_all()
+from mai.database import db, User
 
 u = User('test@example.com', '123456', '')
 u2 = User('admin@example.com', '123456', '')

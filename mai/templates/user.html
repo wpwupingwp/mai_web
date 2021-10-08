@@ -1,8 +1,0 @@
-{% extends "base.html" %}
-{% block content %}
-<h1>User page</h1>
-{% from 'bootstrap/table.html' import render_table %}
-{{render_table(pagination.items)}}
-{% from 'bootstrap/pagination.html' import render_pagination %}
-{{render_pagination(pagination, align='center', size='lg')}}
-{% endblock %}

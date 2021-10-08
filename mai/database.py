@@ -1,17 +1,18 @@
 #!/usr/bin/python3
 
 from datetime import datetime
+from flask import redirect
+from flask_admin.contrib.sqla import ModelView
 from flask_sqlalchemy import SQLAlchemy
-from flask_login import UserMixin
+import flask_login as fl
 
-from mai import app
+from mai import app, admin
 from flask_wtf import FlaskForm
-from mai.form import GoodsForm
 
 db = SQLAlchemy(app)
 
 
-class User(db.Model, UserMixin):
+class User(db.Model, fl.UserMixin):
     __tablename__ = 'user'
     user_id = db.Column(db.Integer, primary_key=True)
     # email
@@ -90,4 +91,18 @@ class Bid(db.Model):
         self.date = datetime.utcnow()
 
 
+class MyModelView(ModelView):
+    def __init__(self, *args, **kargs):
+        super().__init__(*args, **kargs)
 
+    def is_accessible(self):
+        return (fl.current_user.is_authenticated and
+                fl.current_user.username=='admin@example.com')
+
+    def is_accessible_callback(self):
+        return redirect('/')
+
+
+admin.add_view(MyModelView(User, db.session))
+admin.add_view(MyModelView(Goods, db.session))
+admin.add_view((MyModelView(Bid, db.session)))

@@ -1,9 +1,11 @@
 #!/usr/bin/python3
 
-from flask import Flask
+from flask import Flask, redirect
+from flask_admin import Admin
 from flask_bootstrap import Bootstrap
-from flask_migrate import Migrate
 from flask_login import LoginManager
+from flask_migrate import Migrate
+import flask_login as fl
 
 from pathlib import Path
 
@@ -13,7 +15,7 @@ bootstrap = Bootstrap(app)
 lm = LoginManager()
 lm.login_view = 'admin.login'
 lm.init_app(app)
-
+admin = Admin(app, template_mode='bootstrap4')
 root = Path(app.root_path)
 app.config.from_pyfile('config.py')
 

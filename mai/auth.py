@@ -8,7 +8,7 @@ from mai import lm, root
 from mai.form import UserForm, GoodsForm, LoginForm
 from mai.database import User, Goods, db
 
-admin = f.Blueprint('admin', __name__)
+auth = f.Blueprint('auth', __name__)
 # cannot use photos.url
 img_path = root / 'upload' / 'img'
 
@@ -19,7 +19,7 @@ def load_user(user_id):
     return user
 
 
-@admin.route('/login', methods=('POST', 'GET'))
+@auth.route('/login', methods=('POST', 'GET'))
 def login():
     #if f.g.user is not None and f.g.user.is_authenticated():
     #    return f.redirect('/index')
@@ -36,14 +36,14 @@ def login():
     return f.render_template('login.html', form=lf)
 
 
-@admin.route('/logout', methods=('POST', 'GET'))
+@auth.route('/logout', methods=('POST', 'GET'))
 @fl.login_required
 def logout():
     fl.logout_user()
     return f.redirect('/index')
 
 
-@admin.route('/register', methods=('POST', 'GET'))
+@auth.route('/register', methods=('POST', 'GET'))
 def register():
     uf = UserForm()
     if uf.validate_on_submit():
@@ -78,7 +78,7 @@ def upload(data, path) -> str:
     return url
 
 
-@admin.route('/add_goods', methods=('POST', 'GET'))
+@auth.route('/add_goods', methods=('POST', 'GET'))
 @fl.login_required
 def add_goods():
     gf = GoodsForm()
@@ -95,7 +95,7 @@ def add_goods():
     return f.render_template('add_goods.html', form=gf)
 
 
-@admin.route('/delete_goods/<int:goods_id>')
+@auth.route('/delete_goods/<int:goods_id>')
 @fl.login_required
 def delete_goods(goods_id):
     goods = Goods.query.filter_by(goods_id=goods_id).first()
@@ -113,10 +113,9 @@ def delete_goods(goods_id):
     return f.redirect(f'/admin/goods/{fl.current_user.user_id}')
 
 
-@admin.route('/edit_goods/<int:goods_id>', methods=('POST', 'GET'))
+@auth.route('/edit_goods/<int:goods_id>', methods=('POST', 'GET'))
 @fl.login_required
 def edit_goods(goods_id):
-    user_id = fl.current_user.user_id
     goods = Goods.query.filter_by(goods_id=goods_id).first()
     gf = GoodsForm()
     gf.name.data = goods.name
@@ -142,8 +141,8 @@ def edit_goods(goods_id):
 
 
 @fl.login_required
-@admin.route('/goods/<int:user_id>')
-@admin.route('/goods/<int:user_id>/<int:page>')
+@auth.route('/goods/<int:user_id>')
+@auth.route('/goods/<int:user_id>/<int:page>')
 def my_goods(user_id, page=1):
     per_page = 5
     if fl.current_user.is_anonymous:

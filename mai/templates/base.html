@@ -31,12 +31,15 @@
                     <li><a href="/goods">商品列表|</a></li>
                     <li><a href="/user">用户列表|</a></li>
                     {% if current_user.is_authenticated %}
-                        <li><a href="/admin/goods/{{current_user.user_id}}">我的商品|</a></li>
-                        <li><a href="/admin/add_goods">添加商品|</a></li>
-                        <li><a href="/admin/logout">退出({{current_user.username}})</a></li>
+                        {% if current_user.username=='admin@example.com' %}
+                            <li><a href="/admin">管理|</a></li>
+                        {% endif %}
+                        <li><a href="/auth/goods/{{current_user.user_id}}">我的商品|</a></li>
+                        <li><a href="/auth/add_goods">添加商品|</a></li>
+                        <li><a href="/auth/logout">退出({{current_user.username}})</a></li>
                     {% else %}
-                        <li><a href="/admin/register">注册|</a></li>
-                        <li><a href="/admin/login">登录</a></li>
+                        <li><a href="/auth/register">注册|</a></li>
+                        <li><a href="/auth/login">登录</a></li>
                     {% endif %}
                 </ul>
             </div>

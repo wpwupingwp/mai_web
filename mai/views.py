@@ -6,7 +6,7 @@ import flask as f
 
 from mai import app, lm, root
 from mai.database import User, Goods, Bid, db
-from mai.admin import admin
+from mai.auth import auth
 
 
 @app.route('/uploads/<filename>')
@@ -40,19 +40,4 @@ def goods(page=1):
     return f.render_template('goods.html', pagination=pagination)
 
 
-@app.route('/user')
-@app.route('/user/<int:page>')
-def user(page=1):
-    per_page = 5
-    pagination = User.query.paginate(page=page, per_page=per_page)
-    return f.render_template('user.html', pagination=pagination)
-
-
-@app.route('/user/<username>')
-def manage_user(username):
-    # /templates/user.html
-    return f.render_template(
-        'user.html', users=User.query.filter_by(username=username).all())
-
-
-app.register_blueprint(admin, url_prefix='/admin')
+app.register_blueprint(auth, url_prefix='/auth')

@@ -53,6 +53,10 @@ class Goods(db.Model):
     photo3 = db.Column(db.String(100))
     user_id = db.Column(db.Integer, nullable=False)
 
+    def __repr__(self):
+        return f'{self.goods_id},{self.name}'
+
+    @staticmethod
     def from_form(form, user_id):
         goods_ = Goods()
         if isinstance(form, FlaskForm):

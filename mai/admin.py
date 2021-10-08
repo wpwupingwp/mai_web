@@ -113,6 +113,34 @@ def delete_goods(goods_id):
     return f.redirect(f'/admin/goods/{fl.current_user.user_id}')
 
 
+@admin.route('/edit_goods/<int:goods_id>', methods=('POST', 'GET'))
+@fl.login_required
+def edit_goods(goods_id):
+    user_id = fl.current_user.user_id
+    goods = Goods.query.filter_by(goods_id=goods_id).first()
+    gf = GoodsForm()
+    gf.name.data = goods.name
+    gf.description.data = goods.description
+    gf.original_price.data = goods.original_price
+    gf.highest_price.data = goods.highest_price
+    gf.lowest_price.data = goods.lowest_price
+    gf.expired_date.data = goods.expired_date
+    gf.no_bid.data = goods.no_bid
+    gf.address.data = goods.address
+    if gf.validate_on_submit():
+        new = dict(f.request.form)
+        new.pop('submit')
+        new.pop('csrf_token')
+        new['expired_date'] = gf.expired_date.data
+        new['no_bid'] = True if new['no_bid']=='y' else False
+        print(new)
+        Goods.query.filter_by(goods_id=goods_id).update(new)
+        db.session.commit()
+        f.flash('修改物品成功')
+        return f.redirect('/admin/goods/1')
+    return f.render_template('add_goods.html', title='修改', form=gf)
+
+
 @fl.login_required
 @admin.route('/goods/<int:user_id>')
 @admin.route('/goods/<int:user_id>/<int:page>')

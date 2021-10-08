@@ -98,7 +98,8 @@ def add_goods():
 @admin.route('/delete_goods/<int:goods_id>')
 @fl.login_required
 def delete_goods(goods_id):
-    goods = Goods.query.filter_by(goods_id=goods_id, deleted=False).first()
+    goods = Goods.query.filter_by(goods_id=goods_id).first()
+    print(goods)
     if goods is None:
         f.flash('商品不存在')
     else:
@@ -124,7 +125,7 @@ def my_goods(user_id, page=1):
         f.flash('仅可查看自己的商品')
         #return f.redirect(f.url_for('admin.login'))
         user_id = fl.current_user.user_id
-    pagination = Goods.query.filter_by(user_id=user_id).paginate(
+    pagination = Goods.query.filter_by(user_id=user_id, deleted=False).paginate(
         page=page, per_page=per_page)
     return f.render_template('goods.html', pagination=pagination)
 

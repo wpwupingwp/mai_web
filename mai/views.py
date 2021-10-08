@@ -35,7 +35,7 @@ def index():
 @app.route('/goods')
 @app.route('/goods/<int:page>')
 def goods(page=1):
-    per_page = 2
+    per_page = 5
     pagination = Goods.query.paginate(page=page, per_page=per_page)
     return f.render_template('goods.html', pagination=pagination)
 
@@ -43,7 +43,7 @@ def goods(page=1):
 @app.route('/user')
 @app.route('/user/<int:page>')
 def user(page=1):
-    per_page = 3
+    per_page = 5
     pagination = User.query.paginate(page=page, per_page=per_page)
     return f.render_template('user.html', pagination=pagination)
 

@@ -83,7 +83,7 @@ def upload(data, path) -> str:
 def add_goods():
     gf = GoodsForm()
     if gf.validate_on_submit():
-        goods = Goods(gf, fl.current_user.user_id)
+        goods = Goods.from_form(gf, fl.current_user.user_id)
         goods.photo1 = upload(gf.photo1.data, img_path)
         goods.photo2 = upload(gf.photo2.data, img_path)
         goods.photo3 = upload(gf.photo3.data, img_path)
@@ -99,7 +99,7 @@ def add_goods():
 @admin.route('/goods/<int:user_id>')
 @admin.route('/goods/<int:user_id>/<int:page>')
 def my_goods(user_id, page=1):
-    per_page = 3
+    per_page = 5
     if fl.current_user.is_anonymous:
         f.flash('请登录')
         return f.redirect('/admin/login')

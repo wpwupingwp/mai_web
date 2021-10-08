@@ -51,7 +51,7 @@ class Goods(db.Model):
     photo3 = db.Column(db.String(100))
     user_id = db.Column(db.Integer, nullable=False)
 
-    def __init__(self, form, user_id):
+    def from_form(self, form, user_id):
         if isinstance(form, GoodsForm):
             self.name = form.name.data
             self.description = ''.join(form.description.data)
@@ -64,7 +64,7 @@ class Goods(db.Model):
             self.pub_data = datetime.utcnow()
             self.user_id = user_id
         else:
-            print(form)
+            pass
 
 
 class Bid(db.Model):

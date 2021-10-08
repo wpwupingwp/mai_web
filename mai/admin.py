@@ -95,6 +95,22 @@ def add_goods():
     return f.render_template('add_goods.html', form=gf)
 
 
+@admin.route('/delete_goods/<int:goods_id>')
+@fl.login_required
+def delete_goods(goods_id):
+    goods = Goods.query.filter_by(goods_id=goods_id).first()
+    if goods is None:
+        f.flash('商品不存在')
+    else:
+        if goods.user_id != fl.current_user.user_id:
+            f.flash('无权限删除')
+        else:
+            db.session.delete(goods)
+            db.session.commit()
+            f.flash('删除成功')
+    return f.redirect('/goods')
+
+
 @fl.login_required
 @admin.route('/goods/<int:user_id>')
 @admin.route('/goods/<int:user_id>/<int:page>')

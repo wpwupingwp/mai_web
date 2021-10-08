@@ -40,6 +40,7 @@ class Goods(db.Model):
     # address for delivery
     address = db.Column(db.String(100))
     no_bid = db.Column(db.Boolean)
+    deleted = db.Column(db.Boolean, default=False)
     description = db.Column(db.Text, nullable=False)
     original_price = db.Column(db.Float)
     highest_price = db.Column(db.Float, nullable=False)

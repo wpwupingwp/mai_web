@@ -3,7 +3,7 @@
     <h1>Goods page</h1>
     {% for g in pagination.items %}
         <hr>
-        ID {{g.goods_id}}<br>
+        GOODS_ID {{g.goods_id}}<br>
         USER_ID {{g.user_id}}<br>
         名称 {{g.name}}<br>
         描述 {{g.description}}<br>
@@ -14,6 +14,9 @@
         最高价 {{g.highest_price}}
         过期时间 {{g.expired_date}}
         图片 <img src="{{g.photo1}}" /> <img src="{{g.photo2}}"> <img src="{{g.photo3}}"><br>
+        {% if current_user.is_authenticated %}
+            <a href="/admin/delete_goods/{{g.goods_id}}">删除</a>
+        {% endif %}
     {% endfor %}
 {% from 'bootstrap/pagination.html' import render_pagination %}
 {{render_pagination(pagination, align='center', size='lg')}}

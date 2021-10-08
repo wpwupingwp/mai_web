@@ -1,5 +1,4 @@
 #!/usr/bin/python3
-from pathlib import Path
 
 from mai import root
 

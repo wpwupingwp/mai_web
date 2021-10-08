@@ -1,7 +1,6 @@
 #!/usr/bin/python3
 
 import flask as f
-from pathlib import Path
 
 # import flask_mail
 

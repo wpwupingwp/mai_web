@@ -91,7 +91,7 @@ def add_goods():
         db.session.commit()
         f.flash('添加物品成功')
         print('ok')
-        return f.redirect('/goods')
+        return f.redirect(f'/auth/goods/{fl.current_user.user_id}')
     return f.render_template('add_goods.html', form=gf)
 
 

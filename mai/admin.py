@@ -107,10 +107,10 @@ def delete_goods(goods_id):
             f.flash('无权限删除')
         else:
             goods.deleted = True
-            # db.session.delete(goods)
+            db.session.delete(goods)
             db.session.commit()
             f.flash('删除成功')
-    return f.redirect('/goods')
+    return f.redirect(f'/admin/goods/{fl.current_user.user_id}')
 
 
 @fl.login_required
@@ -125,8 +125,9 @@ def my_goods(user_id, page=1):
         f.flash('仅可查看自己的商品')
         #return f.redirect(f.url_for('admin.login'))
         user_id = fl.current_user.user_id
-    pagination = Goods.query.filter_by(user_id=user_id, deleted=False).paginate(
-        page=page, per_page=per_page)
-    return f.render_template('goods.html', pagination=pagination)
+    pagination = Goods.query.with_entities(
+        Goods.goods_id, Goods.name, Goods.pub_date, Goods.original_price
+    ).filter_by(user_id=user_id).paginate(page=page, per_page=per_page)
+    return f.render_template('my_goods.html', pagination=pagination)
 
 

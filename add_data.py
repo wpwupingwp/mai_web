@@ -31,6 +31,7 @@ for i in range(20):
     goods.expired_date = fake.future_date()
     goods.pub_date = fake.future_datetime()
     goods.photo1 = goods.photo2 = goods.photo3 = ''
-    goods.user_id = fake.random_digit()
+    #goods.user_id = fake.random_digit(1)
+    goods.user_id = 1
     db.session.add(goods)
 db.session.commit()

@@ -1,0 +1,31 @@
+{% extends "base.html" %}
+{% block content %}
+<h1>我的商品列表</h1>
+<table class="table table-hover">
+    <thead>
+    <tr>
+        <th>ID</th>
+        <th>名称</th>
+        <th>发布时间</th>
+        <th>原价</th>
+        <th>操作</th>
+    </tr>
+    </thead>
+    <tbody>
+    {% for goods in pagination.items %}
+    <tr>
+        <td>{{goods.goods_id}}</td>
+        <td>{{goods.name}}</td>
+        <td>{{goods.pub_date}}</td>
+        <td>{{goods.original_price}}</td>
+        <td>
+            <a href="/admin/edit_goods/{{goods.goods_id}}">修改</a>
+            <a href="/admin/delete_goods/{{goods.goods_id}}">删除</a>
+        </td>
+        {% endfor %}
+    </tr>
+    </tbody>
+</table>
+{% from 'bootstrap/pagination.html' import render_pagination %}
+{{render_pagination(pagination, align='center', size='lg')}}
+{% endblock %}

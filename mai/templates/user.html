@@ -1,26 +1,8 @@
 {% extends "base.html" %}
 {% block content %}
 <h1>User page</h1>
-<table class="table table-hover">
-    <thead>
-    <tr>
-        <th>ID</th>
-        <th>Name</th>
-        <th>Register date</th>
-        <th>Address</th>
-    </tr>
-    </thead>
-    <tbody>
-    {% for user in pagination.items %}
-    <tr>
-        <td>{{user.user_id}}</td>
-        <td>{{user.username}}</td>
-        <td>{{user.register_date}}</td>
-        <td>{{user.address}}</td>
-    {% endfor %}
-    </tr>
-    </tbody>
-</table>
+{% from 'bootstrap/table.html' import render_table %}
+{{render_table(pagination.items)}}
 {% from 'bootstrap/pagination.html' import render_pagination %}
 {{render_pagination(pagination, align='center', size='lg')}}
 {% endblock %}

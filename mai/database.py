@@ -5,6 +5,7 @@ from flask_sqlalchemy import SQLAlchemy
 from flask_login import UserMixin
 
 from mai import app
+from flask_wtf import FlaskForm
 from mai.form import GoodsForm
 
 db = SQLAlchemy(app)
@@ -52,20 +53,22 @@ class Goods(db.Model):
     photo3 = db.Column(db.String(100))
     user_id = db.Column(db.Integer, nullable=False)
 
-    def from_form(self, form, user_id):
-        if isinstance(form, GoodsForm):
-            self.name = form.name.data
-            self.description = ''.join(form.description.data)
-            self.address = form.address.data
-            self.no_bid = form.no_bid.data
-            self.original_price = form.original_price.data
-            self.highest_price = form.highest_price.data
-            self.lowest_price = form.lowest_price.data
-            self.expired_date = form.expired_date.data
-            self.pub_data = datetime.utcnow()
-            self.user_id = user_id
+    def from_form(form, user_id):
+        goods_ = Goods()
+        if isinstance(form, FlaskForm):
+            goods_.name = form.name.data
+            goods_.description = ''.join(form.description.data)
+            goods_.address = form.address.data
+            goods_.no_bid = form.no_bid.data
+            goods_.original_price = form.original_price.data
+            goods_.highest_price = form.highest_price.data
+            goods_.lowest_price = form.lowest_price.data
+            goods_.expired_date = form.expired_date.data
+            goods_.pub_data = datetime.utcnow()
+            goods_.user_id = user_id
         else:
             pass
+        return goods_
 
 
 class Bid(db.Model):
@@ -75,5 +78,12 @@ class Bid(db.Model):
     goods_id = db.Column(db.Integer, db.ForeignKey('goods.goods_id'))
     date = db.Column(db.DateTime)
     price = db.Column(db.Float)
+
+    def __init__(self, bider_id, goods_id, price):
+        self.bider_id = bider_id
+        self.goods_id = goods_id
+        self.price = price
+        self.date = datetime.utcnow()
+
 
 

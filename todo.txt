@@ -6,3 +6,6 @@ style
 deploy
 flask-migrate
 static css/js
+search
+goods detail
+privilege

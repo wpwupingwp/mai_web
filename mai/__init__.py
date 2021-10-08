@@ -18,5 +18,3 @@ app.config.from_pyfile('config.py')
 
 from mai import config
 from mai import views
-
-#app.run(host='0.0.0.0', port=2021)

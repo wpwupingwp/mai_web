@@ -2,6 +2,7 @@
 
 from flask import Flask
 from flask_bootstrap import Bootstrap
+from flask_migrate import Migrate
 from flask_login import LoginManager
 
 from pathlib import Path
@@ -18,3 +19,6 @@ app.config.from_pyfile('config.py')
 
 from mai import config
 from mai import views
+from mai.database import db
+
+migrate = Migrate(app, db)

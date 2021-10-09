@@ -110,7 +110,7 @@ def delete_goods(goods_id):
             db.session.delete(goods)
             db.session.commit()
             f.flash('删除成功')
-    return f.redirect(f'/admin/goods/{fl.current_user.user_id}')
+    return f.redirect(f'/auth/goods/{fl.current_user.user_id}')
 
 
 @auth.route('/edit_goods/<int:goods_id>', methods=('POST', 'GET'))
@@ -136,7 +136,7 @@ def edit_goods(goods_id):
         Goods.query.filter_by(goods_id=goods_id).update(new)
         db.session.commit()
         f.flash('修改物品成功')
-        return f.redirect('/admin/goods/1')
+        return f.redirect('/auth/goods/1')
     return f.render_template('add_goods.html', title='修改', form=gf)
 
 
@@ -147,7 +147,7 @@ def my_goods(user_id, page=1):
     per_page = 5
     if fl.current_user.is_anonymous:
         f.flash('请登录')
-        return f.redirect('/admin/login')
+        return f.redirect('/auth/login')
     if user_id != fl.current_user.user_id:
         f.flash('仅可查看自己的商品')
         #return f.redirect(f.url_for('admin.login'))

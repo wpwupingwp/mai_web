@@ -4,9 +4,14 @@ desc
 style
 deploy
 flask-migrate
-static css/js
+#static css/js
+bid
+bid query
+highest bid
+use dataclass to handle form submit/edit
 search
 goods detail
-privilege
+goods list, use card
 is active
+    privilege
     flask-mail

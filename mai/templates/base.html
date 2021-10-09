@@ -17,39 +17,39 @@
         body {font-family: "微软雅黑", "PingFang SC", "Hiragino Sans GB", "Heiti SC", "Microsoft YaHei", "WenQuanYi Micro Hei" !important;}
     </style>
 </head>
-<body class="container-fluid">
+<body class="container bg-gray">
     <div class="header sticky-top">
         <nav class="bg-light font-weight-bolder">
-            <ul class="nav nav-pills float-right">
+            <ul class="nav nav-pills float-right h5">
                 {% if request.path != "/index" %}
                 <li class="nav-item">
-                    <a class="nav-link active h4" href="/index">返回主页<span class="sr-only"></span></a>
+                    <a class="nav-link active " href="/index">返回主页<span class="sr-only"></span></a>
                 </li>
                 {% endif %}
                 <li class="nav-item">
-                    <a class="nav-link h4" href="/goods">商品列表</a>
+                    <a class="nav-link" href="/goods">商品列表</a>
                 </li>
                 {% if current_user.is_authenticated %}
                     {% if current_user.username=='admin@example.com' %}
                     <li class="nav-item">
-                        <a class="nav-link h4" href="/admin">管理</a>
+                        <a class="nav-link" href="/admin">管理</a>
                     </li>
                     {% endif %}
                     <li class="nav-item">
-                        <a class="nav-link h4" href="/auth/goods/{{current_user.user_id}}">我的商品</a>
+                        <a class="nav-link" href="/auth/goods/{{current_user.user_id}}">我的商品</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link h4" href="/auth/add_goods">添加商品</a>
+                        <a class="nav-link" href="/auth/add_goods">添加商品</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link h4" href="/auth/logout">退出({{current_user.username}})</a>
+                        <a class="nav-link" href="/auth/logout">退出({{current_user.username}})</a>
                     </li>
                 {% else %}
                     <li class="nav-item">
-                        <a class="nav-link h4" href="/auth/register">注册</a>
+                        <a class="nav-link" href="/auth/register">注册</a>
                     </li>
                     <li class="nav-item">
-                        <a class="nav-link h4" href="/auth/login">登录</a>
+                        <a class="nav-link" href="/auth/login">登录</a>
                     </li>
                 {% endif %}
             </ul>
@@ -70,13 +70,11 @@
     {% endblock %}
     {% if form %}
         {% block form %}
-        {% from 'bootstrap/form.html' import render_form, render_hidden_errors %}
-        {% for error in form.errors.items() %}
-            <div class="invalid-feedback">{{error}}</div>
-        {% endfor %}
-        <form action="{{request.path}}" method="post" enctype="multipart/form-data">
-            {{render_form(form)}}
-        </form>
+            {% from 'bootstrap/form.html' import render_form, render_hidden_errors %}
+            {% for error in form.errors.items() %}
+                <div class="invalid-feedback">{{error}}</div>
+            {% endfor %}
+            {{render_form(form, extra_classes="container-sm")}}
         {% endblock %}
     {% endif %}
 </div>

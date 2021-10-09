@@ -17,9 +17,8 @@
         body {font-family: "微软雅黑", "PingFang SC", "Hiragino Sans GB", "Heiti SC", "Microsoft YaHei", "WenQuanYi Micro Hei" !important;}
     </style>
 </head>
-<body class="container ">
-<div class="container-fluid">
-    <div class="header ">
+<body class="container-fluid">
+    <div class="header sticky-top">
         <nav class="bg-light font-weight-bolder">
             <ul class="nav nav-pills float-right">
                 {% if request.path != "/index" %}
@@ -54,15 +53,9 @@
                     </li>
                 {% endif %}
             </ul>
-        <h2 class="text mx-auto py">@_@</h2>
+        <h2 class="text">@_@</h2>
         </nav>
-    </div>
-
-    <div class="jumbotron">
-        <h1 class="display-4" style="line-height: 40px;">洗衣机，显示器，自行车</h1>
-        <p class="lead display-4">书籍，衣服，食物</p>
-        <p><a class="btn btn-lg btn-success" href="/goods" role="button">浏览商品列表</a></p>
-    </div>
+</div>
 
 <div class="container-fluid">
     {% with messages = get_flashed_messages() %}

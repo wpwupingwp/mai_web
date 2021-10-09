@@ -1,7 +1,6 @@
 desc
-flask-admin
-flask-mail
-pager
+# flask-admin
+# pager
 style
 deploy
 flask-migrate
@@ -9,3 +8,5 @@ static css/js
 search
 goods detail
 privilege
+is active
+    flask-mail

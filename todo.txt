@@ -5,13 +5,13 @@ style
 deploy
 flask-migrate
 #static css/js
-bid
-bid query
-highest bid
 use dataclass to handle form submit/edit
-search
 goods detail
 goods list, use card
 is active
     privilege
     flask-mail
+bid
+bid query
+highest bid
+search

@@ -31,6 +31,9 @@ def favicon():
 def index():
     return f.render_template('index.html')
 
+@app.route('/readme')
+def readme():
+    return f.render_template('readme.html')
 
 @app.route('/goods')
 @app.route('/goods/<int:page>')

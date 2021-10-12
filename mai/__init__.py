@@ -1,11 +1,10 @@
 #!/usr/bin/python3
 
-from flask import Flask, redirect
+from flask import Flask
 from flask_admin import Admin
 from flask_bootstrap import Bootstrap
 from flask_login import LoginManager
 from flask_migrate import Migrate
-import flask_login as fl
 
 from pathlib import Path
 

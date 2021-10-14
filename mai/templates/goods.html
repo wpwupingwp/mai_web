@@ -1,23 +1,27 @@
 {% extends "base.html" %}
 {% block content %}
-<h1 class="text-center">Goods page</h1>
-
-<div class="container row py-5 bg-light">
-    <div class="card-columns">
-    {% for g in pagination.items %}
-        <div class="card box-shadow">
-            <div class="card-header text-light bg-secondary">{{'%0.2f'|format(g.lowest_price)}}</div>
-            <img class="card-img-top" alt="缩略图" src="{{g.photo1}}" data-holder-rendered="true" style="height: 100px; width: 100%; display: block;">
-            <div class="card-body">
-                <h5 class="card-title">{{g.name}}</h5>
-                <p class="card-text">{{g.description}}</p>
-                <a href="/goods/{{g.goods_id}}" class="btn btn-success">查看</a>
-            </div>
-            <div class="card-footer text-dark">{{g.pub_date}}</div>
-        </div>
-    {% endfor %}
+<div class="container">
+    <div class="m-2">
+        <img class=rounded mx-auto src="{{goods.photo1}}">
+        <img class=rounded mx-auto src="{{goods.photo2}}">
+        <img class=rounded mx-auto src="{{goods.photo3}}">
     </div>
+    <ul class="list-group bg-light">
+        <li class="list-group-item">名称：{{goods.name}}</li>
+        <li class="list-group-item">价格: {{"%0.2f"|format(goods.lowest_price)}} 至 {{"%0.2f"|format(goods.highest_price)}}元</li>
+        <li class="list-group-item">原价：{{"%0.2f"|format(goods.original_price)}}</li>
+        <li class="list-group-item">描述：{{goods.description}}</li>
+        <li class="list-group-item">截止日期：{{goods.expired_date}}</li>
+    </ul>
+    <hr/>
+    <ol class="list-group" >
+        {% for bid in bids %}
+        <li class="list-group-item">
+            <span class="text-primary">{{bid.date}}</span>
+            <span class="text-mutex">{{bid.price}}</span>
+        </li>
+        {% endfor %}
+    </ol>
+    <form style=""><div class="form-group"><label>Text</label><input type="text" class="form-control"></div></form></body>
 </div>
-{% from 'bootstrap/pagination.html' import render_pagination %}
-{{render_pagination(pagination, align='center', size='lg')}}
 {% endblock %}

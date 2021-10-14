@@ -15,3 +15,5 @@ bid
 bid query
 highest bid
 search
+
+fix no_bid

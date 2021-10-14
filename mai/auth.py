@@ -67,7 +67,7 @@ def upload(data, path) -> str:
         path: str
     Returns: str
     """
-    if data is None:
+    if data is None or isinstance(data, str):
         return ''
     # relative path
     filename = secure_filename(data.filename)
@@ -121,6 +121,9 @@ def edit_goods(goods_id):
         new = dict(gf.data)
         new.pop('submit')
         new.pop('csrf_token')
+        new['photo1'] = upload(gf.photo1.data, img_path)
+        new['photo2'] = upload(gf.photo2.data, img_path)
+        new['photo2'] = upload(gf.photo3.data, img_path)
         #new['expired_date'] = gf.expired_date.data
         #new['no_bid'] = True if new['no_bid']=='y' else False
         Goods.query.filter_by(goods_id=goods_id).update(new)

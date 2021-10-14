@@ -90,7 +90,6 @@ def add_goods():
         db.session.add(goods)
         db.session.commit()
         f.flash('添加物品成功')
-        print('ok')
         return f.redirect(f'/auth/goods/{fl.current_user.user_id}')
     return f.render_template('add_goods.html', form=gf)
 
@@ -99,7 +98,6 @@ def add_goods():
 @fl.login_required
 def delete_goods(goods_id):
     goods = Goods.query.filter_by(goods_id=goods_id).first()
-    print(goods)
     if goods is None:
         f.flash('商品不存在')
     else:
@@ -132,7 +130,6 @@ def edit_goods(goods_id):
         new.pop('csrf_token')
         new['expired_date'] = gf.expired_date.data
         new['no_bid'] = True if new['no_bid']=='y' else False
-        print(new)
         Goods.query.filter_by(goods_id=goods_id).update(new)
         db.session.commit()
         f.flash('修改物品成功')

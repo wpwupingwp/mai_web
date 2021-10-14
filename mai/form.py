@@ -45,3 +45,8 @@ class GoodsForm(FlaskForm):
     photo2 = FileField('照片2', validators=[FileAllowed(IMG, '不支持的格式')])
     photo3 = FileField('照片3', validators=[FileAllowed(IMG, '不支持的格式')])
     submit = m.SubmitField('提交')
+
+
+class BidForm(FlaskForm):
+    price = m.FloatField('价格', validators=[v.input_required()])
+    submit = m.SubmitField('出价')

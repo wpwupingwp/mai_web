@@ -68,18 +68,18 @@
     {% block script %}
         {{ bootstrap.load_js() }}
     {% endblock %}
+    {% block form %}
     {% if form %}
-        {% block form %}
             {% from 'bootstrap/form.html' import render_form, render_hidden_errors %}
             {% for error in form.errors.items() %}
                 <div class="invalid-feedback">{{error}}</div>
             {% endfor %}
             {{render_form(form, extra_classes="container-sm")}}
-        {% endblock %}
     {% endif %}
+    {% endblock %}
 </div>
     <hr>
 <footer class="footer h5 font-weight-bolder text-muted text-center">
-    <p>Power by Flask 2.0.2 and Bootstrap 4&nbsp;<div>2021</div></p>
+    <p>Power by Flask 2.0.2 and Bootstrap 4&nbsp;<span>2021</span></p>
 </footer>
 </html>

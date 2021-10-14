@@ -22,6 +22,13 @@
         </li>
         {% endfor %}
     </ol>
-    <form style=""><div class="form-group"><label>Text</label><input type="text" class="form-control"></div></form></body>
+    <div class="mx-auto">
+        {% if current_user.is_authenticated %}
+        {% from "bootstrap/form.html" import render_form %}
+        {{render_form(inline_form, form_type="inline")}}
+        {% else %}
+        <span>登录后出价</span>
+        {% endif %}
+    </div>
 </div>
 {% endblock %}

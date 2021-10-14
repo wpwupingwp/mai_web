@@ -1,12 +1,14 @@
 #!/usr/bin/python3
 
 import flask as f
+import flask_login as fl
 
 # import flask_mail
 
 from mai import app, lm, root
-from mai.database import User, Goods, Bid
+from mai.database import User, Goods, Bid, db
 from mai.auth import auth
+from mai.form import BidForm
 
 
 @app.route('/uploads/<filename>')
@@ -43,12 +45,19 @@ def goods_list(page=1):
     return f.render_template('goods_list.html', pagination=pagination)
 
 
-@app.route('/goods/<int:goods_id>')
+@app.route('/goods/<int:goods_id>', methods=('POST', 'GET'))
 def view_goods(goods_id):
     goods = Goods.query.get(goods_id)
     bids = Bid.query.filter_by(goods_id=goods_id
                                ).order_by(Bid.price.desc()).limit(5)
-    return f.render_template('goods.html', goods=goods, bids=bids)
+    bidform = BidForm()
+    if bidform.validate_on_submit():
+        bid = Bid(fl.current_user.user_id, goods_id, bidform.price.data)
+        db.session.add(bid)
+        db.session.commit()
+        f.flash('出价成功')
+    return f.render_template('goods.html', goods=goods, bids=bids,
+                             inline_form=bidform)
 
 
 app.register_blueprint(auth, url_prefix='/auth')

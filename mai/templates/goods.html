@@ -17,11 +17,12 @@
     <ol class="list-group" >
         {% for bid in bids %}
         <li class="list-group-item">
-            <span class="text-primary">{{bid.date}}</span>
-            <span class="text-mutex">{{bid.price}}</span>
+            <span class="text-primary">{{bid.date.strftime('%Y-%m-%d %H:%M:%S')}}</span>
+            <span class="text-mutex">{{"%0.2f"|format(bid.price)}} 元</span>
         </li>
         {% endfor %}
     </ol>
+    <hr/>
     <div class="mx-auto">
         {% if current_user.is_authenticated %}
         {% from "bootstrap/form.html" import render_form %}

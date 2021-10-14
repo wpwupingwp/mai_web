@@ -115,15 +115,7 @@ def delete_goods(goods_id):
 @fl.login_required
 def edit_goods(goods_id):
     goods = Goods.query.filter_by(goods_id=goods_id).first()
-    gf = GoodsForm()
-    gf.name.data = goods.name
-    gf.description.data = goods.description
-    gf.original_price.data = goods.original_price
-    gf.highest_price.data = goods.highest_price
-    gf.lowest_price.data = goods.lowest_price
-    gf.expired_date.data = goods.expired_date
-    gf.no_bid.data = goods.no_bid
-    gf.address.data = goods.address
+    gf = GoodsForm(obj=goods)
     if gf.validate_on_submit():
         new = dict(f.request.form)
         new.pop('submit')

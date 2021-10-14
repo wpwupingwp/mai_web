@@ -1,12 +1,8 @@
 {% extends "base.html" %}
 {% block content %}
 <div class="container">
-    <div class="m-2">
-        <img class=rounded mx-auto src="{{goods.photo1}}">
-        <img class=rounded mx-auto src="{{goods.photo2}}">
-        <img class=rounded mx-auto src="{{goods.photo3}}">
-    </div>
     <ul class="list-group bg-light">
+        <li class="list-group-item active text-center">物品信息</li>
         <li class="list-group-item">名称：{{goods.name}}</li>
         <li class="list-group-item">价格: {{"%0.2f"|format(goods.lowest_price)}} 至 {{"%0.2f"|format(goods.highest_price)}}元</li>
         <li class="list-group-item">原价：{{"%0.2f"|format(goods.original_price)}}</li>
@@ -14,22 +10,31 @@
         <li class="list-group-item">截止日期：{{goods.expired_date}}</li>
     </ul>
     <hr/>
-    <ol class="list-group" >
-        {% for bid in bids %}
-        <li class="list-group-item">
-            <span class="text-primary">{{bid.date.strftime('%Y-%m-%d %H:%M:%S')}}</span>
-            <span class="text-mutex">{{"%0.2f"|format(bid.price)}} 元</span>
-        </li>
-        {% endfor %}
-    </ol>
-    <hr/>
-    <div class="mx-auto">
-        {% if current_user.is_authenticated %}
-        {% from "bootstrap/form.html" import render_form %}
-        {{render_form(inline_form, form_type="inline")}}
-        {% else %}
-        <span>登录后出价</span>
-        {% endif %}
+    <div class="row mx-auto">
+        <div class="col">
+            <img class="rounded d-block mx-auto"  src="{{goods.photo1}}">
+            <img class="rounded d-block mx-auto"  src="{{goods.photo1}}">
+            <img class="rounded d-block mx-auto"  src="{{goods.photo1}}">
+        </div>
+        <div class="col">
+            <ol class="list-group">
+                <li class="list-group-item active bg-success text-center">历史出价</li>
+                {% for bid in bids %}
+                <li class="list-group-item">
+                    <span class="text-primary">{{bid.date.strftime('%Y-%m-%d %H:%M:%S')}}</span>
+                    <span class="text-mutex">{{"%0.2f"|format(bid.price)}} 元</span>
+                </li>
+                {% endfor %}
+            </ol>
+            <div class="mx-auto my-3">
+                {% if current_user.is_authenticated %}
+                {% from "bootstrap/form.html" import render_form %}
+                {{render_form(inline_form, form_type="inline")}}
+                {% else %}
+                <span>登录后出价</span>
+                {% endif %}
+            </div>
+        </div>
     </div>
 </div>
 {% endblock %}

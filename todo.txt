@@ -1,19 +1,19 @@
-desc
+#desc
 # flask-admin
 # pager
-style
+#style
 deploy
 flask-migrate
 #static css/js
 use dataclass to handle form submit/edit
-goods detail
-goods list, use card
+#goods detail
+#goods list, use card
 is active
     privilege
     flask-mail
-bid
-bid query
+#bid
+#bid query
 highest bid
 search
-
 fix no_bid
+link goods and bids

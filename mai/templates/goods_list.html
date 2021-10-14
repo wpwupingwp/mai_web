@@ -1,17 +1,17 @@
 {% extends "base.html" %}
 {% block content %}
-<h1 class="text-center">Goods page</h1>
-
+<h1 class="text-center">商品列表</h1>
 <div class="container row py-5 bg-light">
     <div class="card-columns">
     {% for g in pagination.items %}
         <div class="card box-shadow">
             <div class="card-header text-light bg-secondary">{{'%0.2f'|format(g.lowest_price)}}</div>
-            <img class="card-img-top" alt="缩略图" src="{{g.photo1}}" data-holder-rendered="true" style="height: 100px; width: 100%; display: block;">
+            <img class="card-img-top" alt="缩略图" src="{{g.photo1}}" data-holder-rendered="true" style="height: 100px; width: 100px; display: block;">
             <div class="card-body">
                 <h5 class="card-title">{{g.name}}</h5>
                 <p class="card-text">{{g.description}}</p>
                 <a href="/goods/{{g.goods_id}}" class="btn btn-success">查看</a>
+                <span class="badge badge-primary float-right">0</span>
             </div>
             <div class="card-footer text-dark">{{g.pub_date}}</div>
         </div>

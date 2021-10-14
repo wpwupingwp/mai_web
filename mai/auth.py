@@ -116,12 +116,13 @@ def delete_goods(goods_id):
 def edit_goods(goods_id):
     goods = Goods.query.filter_by(goods_id=goods_id).first()
     gf = GoodsForm(obj=goods)
+    print(gf.data, type(gf.data))
     if gf.validate_on_submit():
-        new = dict(f.request.form)
+        new = dict(gf.data)
         new.pop('submit')
         new.pop('csrf_token')
-        new['expired_date'] = gf.expired_date.data
-        new['no_bid'] = True if new['no_bid']=='y' else False
+        #new['expired_date'] = gf.expired_date.data
+        #new['no_bid'] = True if new['no_bid']=='y' else False
         Goods.query.filter_by(goods_id=goods_id).update(new)
         db.session.commit()
         f.flash('修改物品成功')

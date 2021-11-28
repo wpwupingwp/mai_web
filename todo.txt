@@ -25,4 +25,8 @@ babel
 update goods edit page
 #op.execute("UPDATE users SET is_admin = false")
 docker
+backend manager
+user register verify
+redis
+visit count
 

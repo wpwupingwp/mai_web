@@ -2,18 +2,27 @@
 # flask-admin
 # pager
 #style
-deploy
-flask-migrate
+#deploy
+#flask-migrate
 #static css/js
 use dataclass to handle form submit/edit
 #goods detail
 #goods list, use card
-is active
-    privilege
-    flask-mail
+#is active
+#    privilege
+flask-mail
 #bid
 #bid query
-highest bid
+#highest bid
 search
 fix no_bid
 link goods and bids
+postgresql
+bid
+send SMS
+sold goods list
+babel
+update goods edit page
+#op.execute("UPDATE users SET is_admin = false")
+docker
+

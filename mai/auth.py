@@ -4,7 +4,7 @@ import flask as f
 import flask_login as fl
 from werkzeug.utils import secure_filename
 
-from mai import lm, root
+from mai import app, lm, root
 from mai.form import UserForm, GoodsForm, LoginForm
 from mai.database import User, Goods, db
 
@@ -25,10 +25,19 @@ def login():
     #    return f.redirect('/index')
     lf = LoginForm()
     if lf.validate_on_submit():
-        user = User.query.filter_by(username=lf.username.data,
-                                    password=lf.password.data).first()
+        user = User.query.filter_by(username=lf.username.data).first()
         if user is None:
             f.flash('用户不存在')
+        elif user.password != lf.password.data:
+            user.failed_login += 1
+            db.session.commit()
+            try_n = app.config["MAX_LOGIN"] - user.failed_login
+            if try_n > 0:
+                f.flash(f'密码错误{user.failed_login}次，还可以尝试{try_n}次')
+        elif user.failed_login >= app.config['MAX_LOGIN']:
+            f.flash('登陆失败次数过多，账号已被锁定，如需解封请联系管理员。')
+        elif user.failed_bid >= app.config['MAX_FAILED_BID']:
+            f.flash('您的违约交易次数过多，账号已被锁定，如需解封请联系管理员。')
         else:
             fl.login_user(user)
             f.flash(f'登陆成功')

@@ -92,6 +92,8 @@ class Bid(db.Model):
     goods_id = db.Column(db.Integer, db.ForeignKey('goods.goods_id'))
     date = db.Column(db.DateTime)
     price = db.Column(db.Float)
+    # normal, selling, success, fail
+    state = db.Column(db.String(10), default='normal', nullable=False)
 
     def __init__(self, bider_id, goods_id, price):
         self.bider_id = bider_id

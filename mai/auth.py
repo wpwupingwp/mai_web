@@ -34,11 +34,13 @@ def login():
             try_n = app.config["MAX_LOGIN"] - user.failed_login
             if try_n > 0:
                 f.flash(f'密码错误{user.failed_login}次，还可以尝试{try_n}次')
-        elif user.failed_login >= app.config['MAX_LOGIN']:
-            f.flash('登陆失败次数过多，账号已被锁定，如需解封请联系管理员。')
+            else:
+                f.flash('登陆失败次数过多，账号已被锁定，如需解封请联系管理员。')
         elif user.failed_bid >= app.config['MAX_FAILED_BID']:
             f.flash('您的违约交易次数过多，账号已被锁定，如需解封请联系管理员。')
         else:
+            user.failed_login = 0
+            db.session.commit()
             fl.login_user(user)
             f.flash(f'登陆成功')
             return f.redirect('/index')

@@ -6,7 +6,7 @@ from werkzeug.utils import secure_filename
 
 from mai import app, lm, root
 from mai.form import UserForm, GoodsForm, LoginForm
-from mai.database import User, Goods, db
+from mai.database import Bid, Goods, User, db
 
 auth = f.Blueprint('auth', __name__)
 # cannot use photos.url
@@ -47,8 +47,8 @@ def login():
     return f.render_template('login.html', form=lf)
 
 
-@auth.route('/logout', methods=('POST', 'GET'))
 @fl.login_required
+@auth.route('/logout', methods=('POST', 'GET'))
 def logout():
     fl.logout_user()
     return f.redirect('/index')
@@ -89,8 +89,8 @@ def upload(data, path) -> str:
     return url
 
 
-@auth.route('/add_goods', methods=('POST', 'GET'))
 @fl.login_required
+@auth.route('/add_goods', methods=('POST', 'GET'))
 def add_goods():
     gf = GoodsForm()
     if gf.validate_on_submit():
@@ -105,8 +105,8 @@ def add_goods():
     return f.render_template('add_goods.html', form=gf)
 
 
-@auth.route('/delete_goods/<int:goods_id>')
 @fl.login_required
+@auth.route('/delete_goods/<int:goods_id>')
 def delete_goods(goods_id):
     goods = Goods.query.filter_by(goods_id=goods_id).first()
     if goods is None:
@@ -122,8 +122,8 @@ def delete_goods(goods_id):
     return f.redirect(f'/auth/goods/{fl.current_user.user_id}')
 
 
-@auth.route('/edit_goods/<int:goods_id>', methods=('POST', 'GET'))
 @fl.login_required
+@auth.route('/edit_goods/<int:goods_id>', methods=('POST', 'GET'))
 def edit_goods(goods_id):
     goods = Goods.query.filter_by(goods_id=goods_id).first()
     gf = GoodsForm(obj=goods)
@@ -161,4 +161,15 @@ def my_goods(user_id, page=1):
     ).filter_by(user_id=user_id).paginate(page=page, per_page=per_page)
     return f.render_template('my_goods.html', pagination=pagination)
 
+
+@fl.login_required
+@auth.route('/bid/<int:user_id>/<int:goods_id>')
+@auth.route('/bid/<int:user_id>/<int:goods_id>/<int:page>')
+def selling(goods_id, page=1):
+    per_page = 10
+    goods = Goods.query.get(goods_id)
+    pagination = Bid.query.filter_by(goods_id=goods_id).order_by(
+        Bid.price.desc()).paginate(page=page, per_page=per_page)
+    return f.render_template('selling.html', goods=goods, pagination=pagination)
+#continue selling page, query user
 

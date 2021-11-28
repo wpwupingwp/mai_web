@@ -45,17 +45,22 @@ class Goods(db.Model):
     name = db.Column(db.String(100), nullable=False)
     # address for delivery
     address = db.Column(db.String(100))
-    no_bid = db.Column(db.Boolean)
-    deleted = db.Column(db.Boolean, default=False)
     description = db.Column(db.Text, nullable=False)
+    # price
     original_price = db.Column(db.Float)
     highest_price = db.Column(db.Float, nullable=False)
     lowest_price = db.Column(db.Float, nullable=False)
+    # date
     pub_date = db.Column(db.DateTime)
     expired_date = db.Column(db.Date)
+    # photo
     photo1 = db.Column(db.String(100))
     photo2 = db.Column(db.String(100))
     photo3 = db.Column(db.String(100))
+    # others
+    no_bid = db.Column(db.Boolean, default=False)
+    deleted = db.Column(db.Boolean, default=False)
+    sold = db.Column(db.Boolean, default=False)
     user_id = db.Column(db.Integer, nullable=False)
 
     def __repr__(self):

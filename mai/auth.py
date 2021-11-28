@@ -116,7 +116,7 @@ def delete_goods(goods_id):
             f.flash('无权限删除')
         else:
             goods.deleted = True
-            db.session.delete(goods)
+            # db.session.delete(goods)
             db.session.commit()
             f.flash('删除成功')
     return f.redirect(f'/auth/goods/{fl.current_user.user_id}')

@@ -20,6 +20,10 @@ class User(db.Model, fl.UserMixin):
     password = db.Column(db.String(100))
     register_date = db.Column(db.DateTime)
     address = db.Column(db.String(100))
+    # status
+    failed_login = db.Column(db.Integer, default=0)
+    failed_bid = db.Column(db.Integer, default=0)
+
     bider_id = db.relationship('Bid', backref='user')
 
     def __init__(self, username, password, address=''):

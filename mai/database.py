@@ -26,6 +26,7 @@ class User(db.Model, fl.UserMixin):
     failed_bid = db.Column(db.Integer, default=0)
 
     bider_id = db.relationship('Bid', backref='user')
+    goods_id = db.relationship('Goods', backref='user')
 
     def __init__(self, username, password, phone, address=''):
         self.username = username
@@ -63,7 +64,8 @@ class Goods(db.Model):
     no_bid = db.Column(db.Boolean, default=False)
     deleted = db.Column(db.Boolean, default=False)
     sold = db.Column(db.Boolean, default=False)
-    user_id = db.Column(db.Integer, nullable=False)
+    user_id = db.Column(db.Integer, db.ForeignKey('user.user_id'),
+                        nullable=False)
 
     def __repr__(self):
         return f'{self.goods_id},{self.name}'

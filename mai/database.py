@@ -17,7 +17,7 @@ class User(db.Model, fl.UserMixin):
     user_id = db.Column(db.Integer, primary_key=True)
     # email
     username = db.Column(db.String(100), unique=True)
-    phone = db.Column(db.String(11), nullable=False)
+    phone = db.Column(db.String(11), default='00000000000', nullable=False)
     password = db.Column(db.String(100))
     register_date = db.Column(db.DateTime)
     address = db.Column(db.String(100))

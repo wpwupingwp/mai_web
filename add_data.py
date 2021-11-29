@@ -15,11 +15,11 @@ fake = Faker(locale='zh_CN')
 
 for i in range(10):
     user = User(username=fake.ascii_email(), password=fake.postcode(),
-                address=fake.address())
+                address=fake.address(), phone=fake.phone_number())
     db.session.add(user)
 db.session.commit()
 
-for i in range(20):
+for i in range(10):
     goods = Goods()
     goods.name = fake.word()
     goods.address = fake.address()

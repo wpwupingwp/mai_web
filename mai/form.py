@@ -20,6 +20,7 @@ class UserForm(FlaskForm):
     password2 = m.PasswordField('密码确认', validators=[
         v.input_required(), v.equal_to('password'), v.length(min=4)])
     address = m.StringField('地址', validators=[v.input_required()])
+    phone = m.StringField('手机', validators=[v.input_required()])
     submit = m.SubmitField('提交')
 
 

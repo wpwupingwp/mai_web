@@ -62,7 +62,8 @@ def register():
         if username is not None:
             f.flash('用户名已注册')
             return f.render_template('register.html', form=uf)
-        user = User(uf.username.data, uf.password.data, uf.address.data)
+        user = User(uf.username.data, uf.password.data,
+                    uf.address.data, uf.phone.data)
         db.session.add(user)
         db.session.commit()
         f.flash('注册成功')

@@ -30,4 +30,5 @@ user register verify
 redis
 visit count
 edit form, add subform, add required *
+do not use SMS
 

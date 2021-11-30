@@ -104,6 +104,21 @@ class Bid(db.Model):
         self.date = datetime.utcnow()
 
 
+class Message(db.Model):
+    __tablename__ = 'message'
+    message_id = db.Column(db.Integer, primary_key=True)
+    from_id = db.Column(db.Integer, db.ForeignKey('user.user_id'))
+    to_id = db.Column(db.Integer, db.ForeignKey('user.user_id'))
+    date = db.Column(db.DateTime)
+    content = db.Column(db.String(100))
+
+   def __init__(self, from_id, to_id, content):
+       self.from_id = from_id
+       self.to_id = to_id
+       self.content = content
+       self.date = datetime.now()
+
+
 class MyModelView(ModelView):
     def __init__(self, *args, **kargs):
         super().__init__(*args, **kargs)
@@ -119,3 +134,4 @@ class MyModelView(ModelView):
 admin.add_view(MyModelView(User, db.session))
 admin.add_view(MyModelView(Goods, db.session))
 admin.add_view((MyModelView(Bid, db.session)))
+admin.add_view((MyModelView(Message, db.session)))

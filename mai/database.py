@@ -17,7 +17,6 @@ class User(db.Model, fl.UserMixin):
     user_id = db.Column(db.Integer, primary_key=True)
     # email
     username = db.Column(db.String(100), unique=True)
-    phone = db.Column(db.String(11), default='00000000000', nullable=False)
     password = db.Column(db.String(100))
     register_date = db.Column(db.DateTime)
     address = db.Column(db.String(100))
@@ -27,13 +26,13 @@ class User(db.Model, fl.UserMixin):
 
     bider_id = db.relationship('Bid', backref='user')
     goods_id = db.relationship('Goods', backref='user')
+    # sender_id = db.relationship('Message', backref='user')
 
-    def __init__(self, username, password, phone, address=''):
+    def __init__(self, username, password, address=''):
         self.username = username
         self.password = password
         self.register_date = datetime.utcnow()
         self.address = address
-        self.phone = phone
 
     def __repr__(self):
         return f'{self.username}'
@@ -112,11 +111,11 @@ class Message(db.Model):
     date = db.Column(db.DateTime)
     content = db.Column(db.String(100))
 
-   def __init__(self, from_id, to_id, content):
-       self.from_id = from_id
-       self.to_id = to_id
-       self.content = content
-       self.date = datetime.now()
+    def __init__(self, from_id, to_id, content):
+        self.from_id = from_id
+        self.to_id = to_id
+        self.content = content
+        self.date = datetime.now()
 
 
 class MyModelView(ModelView):

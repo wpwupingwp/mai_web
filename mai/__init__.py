@@ -22,4 +22,4 @@ from mai import config
 from mai import views
 from mai.database import db
 
-migrate = Migrate(app, db)
+migrate = Migrate(app, db, render_as_batch=True)

@@ -62,8 +62,7 @@ def register():
         if username is not None:
             f.flash('用户名已注册')
             return f.render_template('register.html', form=uf)
-        user = User(uf.username.data, uf.password.data,
-                    uf.address.data, uf.phone.data)
+        user = User(uf.username.data, uf.password.data, uf.address.data)
         db.session.add(user)
         db.session.commit()
         f.flash('注册成功')
@@ -182,7 +181,7 @@ def transaction(goods_id, bid_id):
     if tf.validate_on_submit():
         text = (f'卖家{seller.username}同意以{bid.price:.2f}元卖出商品"{goods.name}", '
                 f'请于{tf.date.data}日在{tf.location.data}交易。'
-                f'卖家说明：{tf.others.data} 如需联系卖家请联系{seller.phone}')
+                f'卖家说明：{tf.others.data}')
         if tf.submit1.data:
             f.flash(text)
         elif tf.submit2.data:

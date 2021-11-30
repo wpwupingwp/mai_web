@@ -6,7 +6,7 @@ from werkzeug.utils import secure_filename
 
 from mai import app, lm, root
 from mai.form import UserForm, GoodsForm, LoginForm, TransactionForm
-from mai.database import Bid, Goods, User, db
+from mai.database import Bid, Goods, Message, User, db
 
 auth = f.Blueprint('auth', __name__)
 # cannot use photos.url
@@ -186,6 +186,9 @@ def transaction(goods_id, bid_id):
         if tf.submit1.data:
             f.flash(text)
         elif tf.submit2.data:
+            msg = Message(seller.user_id, buyer.user_id, text)
+            db.session.add(msg)
+            db.session.commit()
         # db.session.commit()
             f.flash('消息发送成功')
             f.redirect(f.request.url)

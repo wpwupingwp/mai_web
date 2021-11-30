@@ -51,8 +51,9 @@ def goods_list(page=1):
 @app.route('/goods/<int:goods_id>', methods=('POST', 'GET'))
 def view_goods(goods_id):
     goods = Goods.query.get(goods_id)
-    bids = Bid.query.filter_by(goods_id=goods_id).order_by(
-        Bid.price.desc()).limit(10)
+    bids = db.session.query(Bid, User).join(
+        Bid, Bid.bider_id==User.user_id).filter_by(
+        goods_id=goods_id).order_by(Bid.price.desc()).limit(10)
     bidform = BidForm()
     if bidform.validate_on_submit():
         bid = Bid(fl.current_user.user_id, goods_id, bidform.price.data)

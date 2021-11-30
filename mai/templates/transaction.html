@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+{% block content %}
+<h1 class="text-center">交易{{goods.name}}</h1>
+<table class="table table-hover">
+    <thead class="thead-dark">
+    <tr>
+        <th>#</th>
+        <th>出价人</th>
+        <th>出价时间</th>
+        <th>价格</th>
+        <th>交易</th>
+    </tr>
+    </thead>
+    <tbody>
+    {% for bid, user in pagination.items %}
+    <tr>
+        <td>{{bid.bid_id}}</td>
+        <td>{{user}}</td>
+        <td>{{bid.date}}</td>
+        <td>{{bid.price}}</td>
+        <td>
+            <a href="/auth/delete_goods/{{goods.goods_id}}">删除</a>
+        </td>
+        {% endfor %}
+    </tr>
+    </tbody>
+</table>
+{% from 'bootstrap/pagination.html' import render_pagination %}
+{{render_pagination(pagination, align='center', size='lg')}}
+{% endblock %}

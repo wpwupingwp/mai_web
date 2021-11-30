@@ -19,10 +19,16 @@
         <div class="col">
             <ol class="list-group">
                 <li class="list-group-item active bg-success text-center">历史出价</li>
-                {% for bid in bids %}
+                {% for bid, user in bids %}
                 <li class="list-group-item">
                     <span class="text-primary">{{bid.date.strftime('%Y-%m-%d %H:%M:%S')}}</span>
                     <span class="text-mutex">{{"%0.2f"|format(bid.price)}} 元</span>
+                    {% if current_user.username=='admin@example.com' %}
+                        <span class="text-black">{{user}}</span>
+                        <span class="text-black">
+                            <a href="/auth/transaction/{{goods.goods_id}}">交易</a>
+                        </span>
+                    {% endif %}
                 </li>
                 {% endfor %}
             </ol>

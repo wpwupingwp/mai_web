@@ -164,13 +164,26 @@ def my_goods(user_id, page=1):
 
 
 @fl.login_required
-@auth.route('/bid/<int:user_id>/<int:goods_id>')
-@auth.route('/bid/<int:user_id>/<int:goods_id>/<int:page>')
-def selling(goods_id, page=1):
+@auth.route('/transaction/<int:goods_id>')
+@auth.route('/transaction/<int:goods_id>/<int:page>')
+def transaction(goods_id, page=1):
     per_page = 10
     goods = Goods.query.get(goods_id)
-    pagination = Bid.query.filter_by(goods_id=goods_id).order_by(
-        Bid.price.desc()).paginate(page=page, per_page=per_page)
-    return f.render_template('selling.html', goods=goods, pagination=pagination)
+    if goods is None:
+        return f.redirect('/goods_list')
+    if fl.current_user.is_anonymous:
+        f.flash('请登录')
+        return f.redirect('/auth/login')
+    if goods.user_id != fl.current_user.user_id:
+        f.flash('仅可交易自己的商品')
+        return f.redirect('/goods')
+    pagination = db.session.query(Bid, User).join(
+        Bid, Bid.bider_id==User.user_id).filter_by(
+        goods_id=goods_id).order_by(Bid.price.desc()).paginate(
+        page=page, per_page=per_page)
+    #pagination = Bid.query.filter_by(goods_id=goods_id).order_by( Bid.price.desc()).join(User).paginate(page=page, per_page=per_page)
+    print(pagination.items)
+    return f.render_template('transaction.html', goods=goods,
+                             pagination=pagination)
 #continue selling page, query user
 

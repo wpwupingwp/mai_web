@@ -5,7 +5,7 @@ import flask_login as fl
 from werkzeug.utils import secure_filename
 
 from mai import app, lm, root
-from mai.form import UserForm, GoodsForm, LoginForm
+from mai.form import UserForm, GoodsForm, LoginForm, TransactionForm
 from mai.database import Bid, Goods, User, db
 
 auth = f.Blueprint('auth', __name__)
@@ -128,7 +128,6 @@ def delete_goods(goods_id):
 def edit_goods(goods_id):
     goods = Goods.query.filter_by(goods_id=goods_id).first()
     gf = GoodsForm(obj=goods)
-    print(gf.data, type(gf.data))
     if gf.validate_on_submit():
         new = dict(gf.data)
         new.pop('submit')
@@ -164,12 +163,14 @@ def my_goods(user_id, page=1):
 
 
 @fl.login_required
-@auth.route('/transaction/<int:goods_id>')
-@auth.route('/transaction/<int:goods_id>/<int:page>')
-def transaction(goods_id, page=1):
-    per_page = 10
+@auth.route('/transaction/<int:goods_id>/<int:bid_id>', methods=('POST', 'GET'))
+def transaction(goods_id, bid_id):
     goods = Goods.query.get(goods_id)
+    seller = User.query.get(goods.user_id)
+    bid = Bid.query.get(bid_id)
+    buyer = User.query.get(bid.bider_id)
     if goods is None:
+        f.flash('商品不存在')
         return f.redirect('/goods_list')
     if fl.current_user.is_anonymous:
         f.flash('请登录')
@@ -177,13 +178,17 @@ def transaction(goods_id, page=1):
     if goods.user_id != fl.current_user.user_id:
         f.flash('仅可交易自己的商品')
         return f.redirect('/goods')
-    pagination = db.session.query(Bid, User).join(
-        Bid, Bid.bider_id==User.user_id).filter_by(
-        goods_id=goods_id).order_by(Bid.price.desc()).paginate(
-        page=page, per_page=per_page)
-    #pagination = Bid.query.filter_by(goods_id=goods_id).order_by( Bid.price.desc()).join(User).paginate(page=page, per_page=per_page)
-    print(pagination.items)
-    return f.render_template('transaction.html', goods=goods,
-                             pagination=pagination)
-#continue selling page, query user
+    tf = TransactionForm()
+    if tf.validate_on_submit():
+        text = (f'卖家{seller.username}同意以{bid.price:.2f}元卖出商品"{goods.name}", '
+                f'请于{tf.date.data}日在{tf.location.data}交易。'
+                f'卖家说明：{tf.others.data} 如需联系卖家请联系{seller.phone}')
+        if tf.submit1.data:
+            f.flash(text)
+        elif tf.submit2.data:
+        # db.session.commit()
+            f.flash('消息发送成功')
+            f.redirect(f.request.url)
+    return f.render_template('transaction.html', title=f'交易{goods.name}',
+                             goods=goods, bid=bid, form=tf)
 

@@ -52,3 +52,12 @@ class GoodsForm(FlaskForm):
 class BidForm(FlaskForm):
     price = m.FloatField('价格', validators=[v.input_required()])
     submit = m.SubmitField('出价')
+
+
+class TransactionForm(FlaskForm):
+    date = DateField('交易时间', validators=[v.input_required()])
+    location = m.StringField('交易地点', validators=[v.input_required()])
+    others = m.StringField('其他说明',
+                           validators=[v.input_required(), v.length(max=20)])
+    submit1 = m.SubmitField('预览信息')
+    submit2 = m.SubmitField('发送信息')

@@ -26,7 +26,7 @@
                     {% if current_user.username=='admin@example.com' %}
                         <span class="text-black">{{user}}</span>
                         <span class="text-black">
-                            <a href="/auth/transaction/{{goods.goods_id}}">交易</a>
+                            <a href="/auth/transaction/{{goods.goods_id}}/{{bid.bid_id}}">交易</a>
                         </span>
                     {% endif %}
                 </li>

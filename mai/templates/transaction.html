@@ -1,30 +1,12 @@
 {% extends "base.html" %}
 {% block content %}
-<h1 class="text-center">交易{{goods.name}}</h1>
-<table class="table table-hover">
-    <thead class="thead-dark">
-    <tr>
-        <th>#</th>
-        <th>出价人</th>
-        <th>出价时间</th>
-        <th>价格</th>
-        <th>交易</th>
-    </tr>
-    </thead>
-    <tbody>
-    {% for bid, user in pagination.items %}
-    <tr>
-        <td>{{bid.bid_id}}</td>
-        <td>{{user}}</td>
-        <td>{{bid.date}}</td>
-        <td>{{bid.price}}</td>
-        <td>
-            <a href="/auth/delete_goods/{{goods.goods_id}}">删除</a>
-        </td>
-        {% endfor %}
-    </tr>
-    </tbody>
-</table>
-{% from 'bootstrap/pagination.html' import render_pagination %}
-{{render_pagination(pagination, align='center', size='lg')}}
+<ul class="list-group bg-light">
+    <li class="list-group-item list-group-item-primary text-center h5">物品信息</li>
+    <li class="list-group-item">名称：{{goods.name}}</li>
+    <li class="list-group-item">原价：{{"%0.2f"|format(goods.original_price)}}</li>
+    <li class="list-group-item">报价范围：{{"%0.2f"|format(goods.lowest_price)}} - {{"%0.2f"|format(goods.highest_price)}}</li>
+    <li class="list-group-item">成交价：{{"%0.2f"|format(bid.price)}}</li>
+</ul>
+<hr/>
+<div class="text-center text-white bg-primary rounded h5 py-2">交易信息</div>
 {% endblock %}

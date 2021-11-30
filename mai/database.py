@@ -24,8 +24,8 @@ class User(db.Model, fl.UserMixin):
     failed_login = db.Column(db.Integer, default=0)
     failed_bid = db.Column(db.Integer, default=0)
 
-    bider_id = db.relationship('Bid', backref='user')
-    goods_id = db.relationship('Goods', backref='user')
+    bider = db.relationship('Bid', backref='user')
+    goods = db.relationship('Goods', backref='user')
     # sender_id = db.relationship('Message', backref='user')
 
     def __init__(self, username, password, address=''):
@@ -110,6 +110,8 @@ class Message(db.Model):
     to_id = db.Column(db.Integer, db.ForeignKey('user.user_id'))
     date = db.Column(db.DateTime)
     content = db.Column(db.String(100))
+    from_ = db.relationship('User', backref='sender', foreign_keys=[from_id])
+    to_ = db.relationship('User', backref='receiver', foreign_keys=[to_id])
 
     def __init__(self, from_id, to_id, content):
         self.from_id = from_id

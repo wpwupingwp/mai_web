@@ -3,6 +3,7 @@
 import flask as f
 import flask_login as fl
 from werkzeug.utils import secure_filename
+from sqlalchemy import or_
 
 from mai import app, lm, root
 from mai.form import UserForm, GoodsForm, LoginForm, TransactionForm
@@ -194,3 +195,22 @@ def transaction(goods_id, bid_id):
     return f.render_template('transaction.html', title=f'交易{goods.name}',
                              goods=goods, bid=bid, form=tf)
 
+@fl.login_required
+@auth.route('/message/<int:user_id>')
+@auth.route('/message/<int:user_id>/<int:page>')
+def message(user_id, page=1):
+    per_page = 5
+    if fl.current_user.is_anonymous:
+        f.flash('请登录')
+        return f.redirect('/auth/login')
+    if user_id != fl.current_user.user_id:
+        f.flash('仅可查看自己的消息')
+        #return f.redirect(f.url_for('admin.login'))
+        user_id = fl.current_user.user_id
+    message = db.session.query(Message, User).join(
+        Message, Message.from_id==User.user_id).filter(or_(
+        Message.from_id==user_id, Message.to_id==user_id)).order_by(
+        Message.date.desc()).paginate(
+        page=page, per_page=per_page)
+    print(message.items[0])
+    return f.render_template('my_message.html', message=message)

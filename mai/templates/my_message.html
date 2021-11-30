@@ -1,0 +1,34 @@
+{% extends "base.html" %}
+{% block content %}
+<h1 class="text-center">我的商品列表</h1>
+<table class="table table-hover">
+  <thead class="thead-dark">
+  <tr>
+    <th>#</th>
+    <th>发件人</th>
+    <th>收件人</th>
+    <th>时间</th>
+    <th>内容</th>
+    <th>操作</th>
+  </tr>
+  </thead>
+  <tbody>
+  {% for msg, user in message.items %}
+  <tr>
+    <td>{{msg.message_id}}</td>
+    <td>{{msg.from_}}</td>
+    <td>{{msg.to_}}</td>
+    <td>{{msg.date.strftime('%Y-%m-%d %H:%M:%S')}}</td>
+    <td>{{msg.content}}</td>
+    <td>
+      <a href="/auth/message/read/{{msg.message_id}}">已读</a>
+      <a href="/auth/message/reply/{{msg.message_id}}">回复</a>
+      <a href="/auth/message/delete/{{msg.message_id}}">删除</a>
+    </td>
+    {% endfor %}
+  </tr>
+  </tbody>
+</table>
+{% from 'bootstrap/pagination.html' import render_pagination %}
+{{render_pagination(message, align='center', size='lg')}}
+{% endblock %}

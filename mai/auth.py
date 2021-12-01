@@ -188,6 +188,7 @@ def transaction(goods_id, bid_id):
         elif tf.submit2.data:
             msg = Message(seller.user_id, buyer.user_id, text)
             db.session.add(msg)
+            bid.is_buying = True
             db.session.commit()
         # db.session.commit()
             f.flash('消息发送成功')
@@ -268,4 +269,19 @@ def delete_msg(message_id):
             # db.session.delete(goods)
             db.session.commit()
             f.flash('修改成功')
+    return f.redirect(f'/auth/message/{fl.current_user.user_id}')
+
+
+@fl.login_required
+@auth.route('/message/report/<int:user_id>/<int:message_id>')
+def report_msg(user_id, message_id):
+    msg = Message.query.get(message_id)
+    if msg is None:
+        f.flash('消息不存在')
+    bid = Bid.query.get(msg.bid_id)
+    bid.is_failed = True
+    user = User.query.get(user_id)
+    user.failed_bid += 1
+    db.session.commit()
+    f.flash('举报成功')
     return f.redirect(f'/auth/message/{fl.current_user.user_id}')

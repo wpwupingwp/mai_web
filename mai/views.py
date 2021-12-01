@@ -65,6 +65,9 @@ def view_goods(goods_id):
         goods_id=goods_id).order_by(Bid.price.desc()).limit(10)
     bidform = BidForm()
     if bidform.validate_on_submit():
+        if not goods.lowest_price <= bidform.price.data <= goods.highest_price:
+            f.flash('无效价格，请注意价格范围', category='error')
+            return f.redirect(f.request.url)
         bid = Bid(fl.current_user.user_id, goods_id, bidform.price.data)
         db.session.add(bid)
         db.session.commit()

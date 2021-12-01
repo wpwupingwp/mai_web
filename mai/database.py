@@ -93,6 +93,8 @@ class Bid(db.Model):
     goods_id = db.Column(db.Integer, db.ForeignKey('goods.goods_id'))
     date = db.Column(db.DateTime)
     price = db.Column(db.Float)
+    is_buying = db.Column(db.Boolean, default=False)
+    is_failed = db.Column(db.Boolean, default=False)
 
     def __init__(self, bider_id, goods_id, price):
         self.bider_id = bider_id
@@ -106,16 +108,19 @@ class Message(db.Model):
     message_id = db.Column(db.Integer, primary_key=True)
     from_id = db.Column(db.Integer, db.ForeignKey('user.user_id'))
     to_id = db.Column(db.Integer, db.ForeignKey('user.user_id'))
+    bid_id = db.Column(db.Integer, db.ForeignKey('Bid.bid_id'))
     date = db.Column(db.DateTime)
     content = db.Column(db.String(100))
     is_read = db.Column(db.Boolean, default=False)
     is_deleted = db.Column(db.Boolean, default=False)
     from_ = db.relationship('User', backref='sender', foreign_keys=[from_id])
     to_ = db.relationship('User', backref='receiver', foreign_keys=[to_id])
+    bid_msg = db.relationship('Bid', backref='bid_msg', foreign_keys=[message_id])
 
-    def __init__(self, from_id, to_id, content):
+    def __init__(self, from_id, to_id, bid_id, content):
         self.from_id = from_id
         self.to_id = to_id
+        self.bid_id = bid_id
         self.content = content
         self.date = datetime.now()
 

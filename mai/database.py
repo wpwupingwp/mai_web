@@ -60,7 +60,6 @@ class Goods(db.Model):
     photo2 = db.Column(db.String(100))
     photo3 = db.Column(db.String(100))
     # others
-    no_bid = db.Column(db.Boolean, default=False)
     deleted = db.Column(db.Boolean, default=False)
     sold = db.Column(db.Boolean, default=False)
     user_id = db.Column(db.Integer, db.ForeignKey('user.user_id'),
@@ -76,7 +75,6 @@ class Goods(db.Model):
             goods_.name = form.name.data
             goods_.description = ''.join(form.description.data)
             goods_.address = form.address.data
-            goods_.no_bid = form.no_bid.data
             goods_.original_price = form.original_price.data
             goods_.highest_price = form.highest_price.data
             goods_.lowest_price = form.lowest_price.data

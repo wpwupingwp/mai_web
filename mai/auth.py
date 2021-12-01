@@ -3,7 +3,7 @@
 import flask as f
 import flask_login as fl
 from werkzeug.utils import secure_filename
-from sqlalchemy import or_
+from sqlalchemy import or_, not_
 
 from mai import app, lm, root
 from mai.form import UserForm, GoodsForm, LoginForm, TransactionForm
@@ -209,8 +209,8 @@ def message(user_id, page=1):
         user_id = fl.current_user.user_id
     message = db.session.query(Message, User).join(
         Message, Message.from_id==User.user_id).filter(or_(
-        Message.from_id==user_id, Message.to_id==user_id)).order_by(
+        Message.from_id==user_id, Message.to_id==user_id)).filter(not_(
+        Message.is_deleted)).order_by(
         Message.date.desc()).paginate(
         page=page, per_page=per_page)
-    print(message.items[0])
     return f.render_template('my_message.html', message=message)

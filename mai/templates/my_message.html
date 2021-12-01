@@ -14,18 +14,22 @@
   </thead>
   <tbody>
   {% for msg, user in message.items %}
-  <tr>
-    <td>{{msg.message_id}}</td>
-    <td>{{msg.from_}}</td>
-    <td>{{msg.to_}}</td>
-    <td>{{msg.date.strftime('%Y-%m-%d %H:%M:%S')}}</td>
-    <td>{{msg.content}}</td>
-    <td>
-      <a href="/auth/message/read/{{msg.message_id}}">已读</a>
-      <a href="/auth/message/reply/{{msg.message_id}}">回复</a>
-      <a href="/auth/message/delete/{{msg.message_id}}">删除</a>
-    </td>
-    {% endfor %}
+  {% if msg.read %}
+    <tr class="bg-grey">
+  {% else %}
+    <tr>
+  {% endif %}
+      <td>{{msg.message_id}}</td>
+      <td>{{msg.from_}}</td>
+      <td>{{msg.to_}}</td>
+      <td>{{msg.date.strftime('%Y-%m-%d %H:%M:%S')}}</td>
+      <td>{{msg.content}}</td>
+      <td>
+        <a href="/auth/message/read/{{msg.message_id}}">已读</a>
+        <a href="/auth/message/reply/{{msg.message_id}}">回复</a>
+        <a href="/auth/message/delete/{{msg.message_id}}">删除</a>
+      </td>
+  {% endfor %}
   </tr>
   </tbody>
 </table>

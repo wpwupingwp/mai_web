@@ -21,8 +21,9 @@
       <td>{{msg.content}}</td>
       <td>
         <a class="text-nowrap" href="/auth/message/delete/{{msg.message_id}}">删除</a>
+        <a class="text-nowrap" href="/auth/message/report/{{msg.to_id}}/{{msg.message_id}}">举报</a>
       </td>
-  {% endfor %}
+      {% endfor %}
   </tr>
   </tbody>
 </table>

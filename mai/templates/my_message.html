@@ -31,6 +31,7 @@
             <a class="text-nowrap" href="/auth/message/reply/{{msg.message_id}}">回复</a>
           {% endif %}
         <a class="text-nowrap" href="/auth/message/delete/{{msg.message_id}}">删除</a>
+        <a class="text-nowrap" href="/auth/message/report/{{msg.from_id}}/{{msg.message_id}}">举报</a>
       </td>
   {% endfor %}
   </tr>

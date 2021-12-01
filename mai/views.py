@@ -1,12 +1,14 @@
 #!/usr/bin/python3
 
 import flask as f
+from flask import g
 import flask_login as fl
+from sqlalchemy import not_, and_
 
 # import flask_mail
 
 from mai import app, lm, root
-from mai.database import User, Goods, Bid, db
+from mai.database import User, Goods, Message, Bid, db
 from mai.auth import auth
 from mai.form import BidForm
 
@@ -27,6 +29,13 @@ def favicon():
     return f.send_from_directory(root/'static', 'favicon.png',
                                  mimetype='image/png')
 
+
+@app.before_request
+def get_unread():
+    g.unread = Message.query.filter(and_(
+        Message.to_id==fl.current_user.user_id, not_(Message.is_read),
+        not_(Message.is_deleted))).count()
+    print(g.unread)
 
 @app.route('/')
 @app.route('/index')

@@ -3,7 +3,7 @@
 import flask as f
 import flask_login as fl
 from werkzeug.utils import secure_filename
-from sqlalchemy import or_, not_
+from sqlalchemy import not_, and_
 
 from mai import app, lm, root
 from mai.form import UserForm, GoodsForm, LoginForm, TransactionForm
@@ -12,7 +12,7 @@ from mai.database import Bid, Goods, Message, User, db
 auth = f.Blueprint('auth', __name__)
 # cannot use photos.url
 img_path = root / 'upload' / 'img'
-
+# unread msg
 
 @lm.user_loader
 def load_user(user_id):

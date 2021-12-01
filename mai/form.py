@@ -20,8 +20,8 @@ class UserForm(FlaskForm):
     password2 = m.PasswordField('密码确认', validators=[
         v.input_required(), v.equal_to('password'), v.length(min=4)])
     address = m.StringField('地址', validators=[v.input_required()])
-    phone = m.StringField('手机', validators=[
-        v.input_required(), v.length(min=11, max=11, message='手机号为11位')])
+    # phone = m.StringField('手机', validators=[
+    #    v.input_required(), v.length(min=11, max=11, message='手机号为11位')])
     submit = m.SubmitField('提交')
 
 

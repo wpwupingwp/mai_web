@@ -208,9 +208,64 @@ def message(user_id, page=1):
         #return f.redirect(f.url_for('admin.login'))
         user_id = fl.current_user.user_id
     message = db.session.query(Message, User).join(
-        Message, Message.from_id==User.user_id).filter(or_(
-        Message.from_id==user_id, Message.to_id==user_id)).filter(not_(
+        Message, Message.to_id==User.user_id, isouter=True).filter(
+        Message.to_id==user_id).filter(not_(
         Message.is_deleted)).order_by(
         Message.date.desc()).paginate(
         page=page, per_page=per_page)
-    return f.render_template('my_message.html', message=message)
+    return f.render_template('my_message.html', message=message,
+                             title='我的消息')
+
+
+@fl.login_required
+@auth.route('/message/sent/<int:user_id>')
+@auth.route('/message/sent/<int:user_id>/<int:page>')
+def sent_message(user_id, page=1):
+    per_page = 5
+    if fl.current_user.is_anonymous:
+        f.flash('请登录')
+        return f.redirect('/auth/login')
+    if user_id != fl.current_user.user_id:
+        f.flash('仅可查看自己的消息')
+        #return f.redirect(f.url_for('admin.login'))
+        user_id = fl.current_user.user_id
+    message = Message.query.filter(
+        Message.from_id==user_id).filter(not_(
+        Message.is_deleted)).order_by(
+        Message.date.desc()).paginate(
+        page=page, per_page=per_page)
+    return f.render_template('my_sent_message.html', message=message,
+                             title="我的消息")
+
+@fl.login_required
+@auth.route('/message/read/<int:message_id>')
+def read_msg(message_id):
+    msg = Message.query.get(message_id)
+    if msg is None:
+        f.flash('消息不存在')
+    else:
+        if msg.to_id != fl.current_user.user_id:
+            f.flash('无权限操作')
+        else:
+            msg.is_read = True
+            # db.session.delete(goods)
+            db.session.commit()
+            f.flash('修改成功')
+    return f.redirect(f'/auth/message/{fl.current_user.user_id}')
+
+
+@fl.login_required
+@auth.route('/message/delete/<int:message_id>')
+def delete_msg(message_id):
+    msg = Message.query.get(message_id)
+    if msg is None:
+        f.flash('消息不存在')
+    else:
+        if msg.to_id != fl.current_user.user_id:
+            f.flash('无权限操作')
+        else:
+            msg.is_deleted = True
+            # db.session.delete(goods)
+            db.session.commit()
+            f.flash('修改成功')
+    return f.redirect(f'/auth/message/{fl.current_user.user_id}')

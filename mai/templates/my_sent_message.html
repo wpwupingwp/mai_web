@@ -1,35 +1,25 @@
 {% extends "base.html" %}
 {% block content %}
-<h1 class="text-center">收件箱</h1>
-<a href="/auth/message/sent/{{current_user.user_id}}">发件箱</a>
+<h1 class="text-center">发件箱</h1>
+<a href="/auth/message/{{current_user.user_id}}">收件箱</a>
 <table class="table table-hover">
   <thead class="thead-dark">
   <tr>
     <th>#</th>
-    <th>发件人</th>
+    <th>收件人</th>
     <th>时间</th>
     <th>内容</th>
     <th>操作</th>
   </tr>
   </thead>
   <tbody>
-  {% for msg, user in message.items %}
-  {% if msg.is_read %}
-    <tr class="table-secondary">
-  {% else %}
+  {% for msg in message.items %}
     <tr>
-  {% endif %}
       <td>{{msg.message_id}}</td>
-      <td>{{msg.from_}}</td>
+      <td>{{msg.to_}}</td>
       <td class="text-nowrap">{{msg.date.strftime('%Y-%m-%d %H:%M:%S')}}</td>
       <td>{{msg.content}}</td>
       <td>
-          {% if msg.to_id==current_user.user_id %}
-            {% if not msg.is_read %}
-                <a class="text-nowrap" href="/auth/message/read/{{msg.message_id}}">已读</a>
-            {% endif %}
-            <a class="text-nowrap" href="/auth/message/reply/{{msg.message_id}}">回复</a>
-          {% endif %}
         <a class="text-nowrap" href="/auth/message/delete/{{msg.message_id}}">删除</a>
       </td>
   {% endfor %}

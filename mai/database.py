@@ -127,6 +127,27 @@ class Message(db.Model):
         self.date = datetime.now()
 
 
+class Visit(db.Model):
+    __tablename = 'visitor'
+    visit_id = db.Column(db.Integer, primary_key=True)
+    username = db.Column(db.String(100))
+    ip = db.Column(db.String(100))
+    url = db.Column(db.String(100))
+    useragent = db.Column(db.String(100))
+    date = db.Column(db.DateTime)
+
+    def __init__(self, username, ip, url, useragent):
+        self.username = username
+        self.ip = ip
+        self.url = url
+        self.useragent = useragent
+        self.date = datetime.now()
+
+    def __str__(self):
+        return (f'{self.date}:\t{self.username}\t{self.ip}'
+                f'\t{self.url}\t{self.useragent}')
+
+
 class MyModelView(ModelView):
     def __init__(self, *args, **kargs):
         super().__init__(*args, **kargs)

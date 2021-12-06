@@ -15,8 +15,8 @@ flask-mail
 #bid query
 #highest bid
 search
-fix no_bid
-link goods and bids
+# fix no_bid
+# link goods and bids
 postgresql
 bid
 send SMS

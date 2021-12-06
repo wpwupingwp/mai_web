@@ -1,14 +1,14 @@
 #!/usr/bin/python3
 
 import flask as f
-from flask import g
+from flask import g, request, session
 import flask_login as fl
 from sqlalchemy import not_, and_
 
 # import flask_mail
 
 from mai import app, lm, root
-from mai.database import User, Goods, Message, Bid, db
+from mai.database import User, Goods, Message, Visit, Bid, db
 from mai.auth import auth
 from mai.form import BidForm
 
@@ -40,6 +40,23 @@ def get_unread():
             and_(Message.to_id==fl.current_user.user_id, not_(
                 Message.is_read), not_(Message.is_deleted))
         ).count()
+
+
+@app.before_request
+def track():
+    if session.get('tracked', False):
+        return
+    else:
+        session['tracked'] = True
+        if fl.current_user.is_anonymous:
+            username = 'guest'
+        else:
+            username = fl.current_user.username
+        visit = Visit(username, request.remote_addr, request.url,
+                      request.user_agent)
+        db.session.add(visit)
+        db.session.commit()
+        print(visit)
 
 
 @app.route('/')

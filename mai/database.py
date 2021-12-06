@@ -160,7 +160,5 @@ class MyModelView(ModelView):
         return redirect('/')
 
 
-admin.add_view(MyModelView(User, db.session))
-admin.add_view(MyModelView(Goods, db.session))
-admin.add_view((MyModelView(Bid, db.session)))
-admin.add_view((MyModelView(Message, db.session)))
+for m in [User, Goods, Bid, Message, Visit]:
+    admin.add_view(MyModelView(m, db.session))

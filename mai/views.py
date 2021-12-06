@@ -53,10 +53,9 @@ def track():
         else:
             username = fl.current_user.username
         visit = Visit(username, request.remote_addr, request.url,
-                      request.user_agent)
+                      request.user_agent.string)
         db.session.add(visit)
         db.session.commit()
-        print(visit)
 
 
 @app.route('/')

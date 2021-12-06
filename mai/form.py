@@ -13,29 +13,32 @@ IMG = set('jpg jpe jpeg png gif svg bmp webp'.split())
 
 
 class UserForm(FlaskForm):
-    username = m.StringField('用户名', validators=[v.input_required()])
+    username = m.StringField('用户名', validators=[v.input_required(),
+                                                v.length(max=100)])
     password = m.PasswordField('密码', validators=[
-        v.input_required(), v.length(min=4)])
+        v.input_required(), v.length(min=4, max=100)])
     password2 = m.PasswordField('密码确认', validators=[
-        v.input_required(), v.equal_to('password'), v.length(min=4)])
-    address = m.StringField('地址', validators=[v.input_required()])
+        v.input_required(), v.equal_to('password')])
+    address = m.StringField('地址', validators=[v.length(max=100)])
     # phone = m.StringField('手机', validators=[
     #    v.input_required(), v.length(min=11, max=11, message='手机号为11位')])
     submit = m.SubmitField('提交')
 
 
 class LoginForm(FlaskForm):
-    username = m.StringField('用户名', validators=[v.input_required()])
+    username = m.StringField('用户名', validators=[v.input_required(),
+                                                v.length(max=100)])
     password = m.PasswordField('密码', validators=[
-        v.input_required(), v.length(min=4)])
+        v.input_required(), v.length(min=4, max=100)])
     submit = m.SubmitField('提交')
 
 
 class GoodsForm(FlaskForm):
-    name = m.StringField('名称', validators=[v.input_required()])
+    name = m.StringField('名称', validators=[v.input_required(),
+                                           v.length(max=100)])
     description = m.TextAreaField('描述', validators=[v.input_required()])
     # address for delivery
-    address = m.StringField('地址', validators=[v.input_required()])
+    address = m.StringField('地址', validators=[v.length(max=100)]
     original_price = m.FloatField('原价')
     lowest_price = m.FloatField('最低价', validators=[v.input_required()])
     highest_price = m.FloatField('最高价', validators=[v.input_required()])

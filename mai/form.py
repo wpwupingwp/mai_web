@@ -38,7 +38,7 @@ class GoodsForm(FlaskForm):
                                            v.length(max=100)])
     description = m.TextAreaField('描述', validators=[v.input_required()])
     # address for delivery
-    address = m.StringField('地址', validators=[v.length(max=100)]
+    address = m.StringField('地址', validators=[v.length(max=100)])
     original_price = m.FloatField('原价')
     lowest_price = m.FloatField('最低价', validators=[v.input_required()])
     highest_price = m.FloatField('最高价', validators=[v.input_required()])

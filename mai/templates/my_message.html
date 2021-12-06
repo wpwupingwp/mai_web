@@ -3,47 +3,46 @@
 <h1 class="text-center">收件箱</h1>
 <a href="/auth/message/sent/{{current_user.user_id}}">发件箱</a>
 <table class="table table-hover">
-  <thead class="thead-dark">
-  <tr>
-    <th>#</th>
-    <th>发件人</th>
-    <th>时间</th>
-    <th>内容</th>
-    <th>操作</th>
-  </tr>
-  </thead>
-  <tbody>
-  {% for msg, user in message.items %}
-  {% if msg.is_read %}
-    <tr class="table-secondary">
-  {% else %}
-    <tr>
-  {% endif %}
-  {% if msg.is_read %}
-      <tr class="table-primary">
-  {% else %}
-      <tr>
-  {% endif %}
-      <td>{{msg.message_id}}</td>
-      <td>{{msg.from_}}</td>
-      <td class="text-nowrap">{{msg.date.strftime('%Y-%m-%d %H:%M:%S')}}</td>
-      <td>{{msg.content}}</td>
-      <td>
-          {% if msg.to_id==current_user.user_id %}
-            {% if not msg.is_read %}
-                <a class="text-nowrap" href="/auth/message/read/{{msg.message_id}}">已读</a>
-            {% endif %}
-            {% if not msg.is_accept %}
-                <a class="text-nowrap" href="/auth/message/accept/{{msg.message_id}}">接受</a>
+    <thead class="thead-dark">
+        <tr>
+        <th>#</th>
+        <th>发件人</th>
+        <th>时间</th>
+        <th>内容</th>
+        <th>操作</th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for msg, user in message.items %}
+            {% if msg.is_report %}
+                <tr class="table-danger">
+            {% elif msg.is_accept %}
+                <tr class="table-success">
+            {% elif msg.is_read %}
+                <tr class="table-secondary">
             {% else %}
-                <a class="text-nowrap" href="/auth/message/report/{{msg.from_id}}/{{msg.message_id}}">举报</a>
+                <tr>
             {% endif %}
-          {% endif %}
-        <a class="text-nowrap" href="/auth/message/delete/{{msg.message_id}}">删除</a>
-      </td>
-  {% endfor %}
-  </tr>
-  </tbody>
+        <td>{{msg.message_id}}</td>
+        <td>{{msg.from_}}</td>
+        <td class="text-nowrap">{{msg.date.strftime('%Y-%m-%d %H:%M:%S')}}</td>
+        <td>{{msg.content}}</td>
+        <td>
+            {% if msg.to_id==current_user.user_id %}
+                {% if not msg.is_read %}
+                    <a class="text-nowrap" href="/auth/message/read/{{msg.message_id}}">已读</a>
+                {% endif %}
+                {% if not msg.is_accept %}
+                    <a class="text-nowrap" href="/auth/message/accept/{{msg.message_id}}">接受</a>
+                {% elif not msg.is_report %}
+                    <a class="text-nowrap" href="/auth/message/report/{{msg.from_id}}/{{msg.message_id}}">举报</a>
+                {% endif %}
+            {% endif %}
+            <a class="text-nowrap" href="/auth/message/delete/{{msg.message_id}}">删除</a>
+        </td>
+        {% endfor %}
+        </tr>
+    </tbody>
 </table>
 {% from 'bootstrap/pagination.html' import render_pagination %}
 {{render_pagination(message, align='center', size='lg')}}

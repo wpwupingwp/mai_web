@@ -296,6 +296,7 @@ def report_msg(user_id, message_id):
     msg = Message.query.get(message_id)
     if msg is None:
         f.flash('消息不存在')
+    msg.is_report = True
     bid = Bid.query.get(msg.bid_id)
     bid.is_failed = True
     user = User.query.get(user_id)

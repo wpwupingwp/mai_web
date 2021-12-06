@@ -10,10 +10,17 @@
 </div>
 {% endblock %}
 {% block footer %}
-{{ super() }}
+<footer class="footer h5 font-weight-bolder text-muted text-center">
+    <div class="h6 text-primary text-center">
     {% if current_user.is_authenticated %}
-        您是第{{visit}}次访问
+    您是第{{visit}}次访问
     {% else %}
-        您是第{{visit}}位访客
+    您是第{{visit}}位访客
     {% endif %}
+    </div>
+    <p>
+        Power by Flask 2.0.2 and Bootstrap 4 <br/>
+        <span>Copyright 2021.10-2021.12</span>
+    </p>
+</footer>
 {% endblock %}

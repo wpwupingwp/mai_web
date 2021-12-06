@@ -7,7 +7,7 @@ from sqlalchemy import not_, and_
 
 from mai import app, lm, root
 from mai.form import UserForm, GoodsForm, LoginForm, TransactionForm
-from mai.database import Bid, Goods, Message, User, db
+from mai.database import Bid, Goods, Message, User, Visit, db
 
 auth = f.Blueprint('auth', __name__)
 # cannot use photos.url
@@ -41,9 +41,13 @@ def login():
             f.flash('您的违约交易次数过多，账号已被锁定，如需解封请联系管理员。')
         else:
             user.failed_login = 0
-            db.session.commit()
             fl.login_user(user)
             f.flash(f'登陆成功')
+            print(f.session.items())
+            old_visit = Visit.query.get(f.session['visit_id'])
+            db.session.delete(old_visit)
+            db.session.commit()
+            f.session['tracked'] = False
             return f.redirect('/index')
     return f.render_template('login.html', form=lf)
 
@@ -51,6 +55,7 @@ def login():
 @fl.login_required
 @auth.route('/logout', methods=('POST', 'GET'))
 def logout():
+    f.session['tracked'] = False
     fl.logout_user()
     return f.redirect('/index')
 

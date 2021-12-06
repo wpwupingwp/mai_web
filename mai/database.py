@@ -129,15 +129,15 @@ class Message(db.Model):
 class Visit(db.Model):
     __tablename = 'visitor'
     visit_id = db.Column(db.Integer, primary_key=True)
-    user_id = db.Column(db.Integer, db.ForeignKey('user.username'))
+    user_id = db.Column(db.Integer, db.ForeignKey('user.user_id'))
     ip = db.Column(db.String(100))
     url = db.Column(db.String(100))
     useragent = db.Column(db.String(200))
     date = db.Column(db.DateTime)
     user = db.relationship('User', backref='visit')
 
-    def __init__(self, username, ip, url, useragent):
-        self.username = username
+    def __init__(self, user_id, ip, url, useragent):
+        self.user_id = user_id
         self.ip = ip
         self.url = url
         self.useragent = useragent

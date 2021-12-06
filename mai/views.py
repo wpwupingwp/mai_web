@@ -45,6 +45,7 @@ def get_unread():
 @app.before_request
 def track():
     if session.get('tracked', False):
+        print(session.get('tracked'), session.get('visit_id'))
         return
     else:
         session['tracked'] = True
@@ -56,6 +57,7 @@ def track():
                       request.user_agent.string)
         db.session.add(visit)
         db.session.commit()
+        session['visit_id'] = visit.visit_id
 
 
 @app.route('/')

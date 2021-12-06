@@ -45,7 +45,6 @@ def get_unread():
 @app.before_request
 def track():
     if session.get('tracked', False):
-        print(session.get('tracked'), session.get('visit_id'))
         return
     else:
         session['tracked'] = True
@@ -65,7 +64,6 @@ def track():
 def index():
     if fl.current_user.is_authenticated:
         user = User.query.get(fl.current_user.user_id)
-        print(user.visit)
         visit = len(user.visit)
     else:
         visit = Visit.query.count()

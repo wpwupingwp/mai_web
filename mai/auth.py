@@ -43,7 +43,6 @@ def login():
             user.failed_login = 0
             fl.login_user(user)
             f.flash(f'登陆成功')
-            print(f.session.items())
             old_visit = Visit.query.get(f.session['visit_id'])
             db.session.delete(old_visit)
             db.session.commit()

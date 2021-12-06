@@ -25,7 +25,6 @@ class User(db.Model, fl.UserMixin):
     failed_bid = db.Column(db.Integer, default=0)
 
     goods = db.relationship('Goods', backref='user')
-    # sender_id = db.relationship('Message', backref='user')
 
     def __init__(self, username, password, address=''):
         self.username = username
@@ -130,11 +129,12 @@ class Message(db.Model):
 class Visit(db.Model):
     __tablename = 'visitor'
     visit_id = db.Column(db.Integer, primary_key=True)
-    username = db.Column(db.String(100))
+    user_id = db.Column(db.Integer, db.ForeignKey('user.username'))
     ip = db.Column(db.String(100))
     url = db.Column(db.String(100))
-    useragent = db.Column(db.String(100))
+    useragent = db.Column(db.String(200))
     date = db.Column(db.DateTime)
+    user = db.relationship('User', backref='visit')
 
     def __init__(self, username, ip, url, useragent):
         self.username = username
@@ -144,7 +144,7 @@ class Visit(db.Model):
         self.date = datetime.now()
 
     def __str__(self):
-        return (f'{self.date}:\t{self.username}\t{self.ip}'
+        return (f'{self.date}:\t{self.user}\t{self.ip}'
                 f'\t{self.url}\t{self.useragent}')
 
 

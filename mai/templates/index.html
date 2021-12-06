@@ -9,3 +9,11 @@
     </div>
 </div>
 {% endblock %}
+{% block footer %}
+{{ super() }}
+    {% if current_user.is_authenticated %}
+        您是第{{visit}}次访问
+    {% else %}
+        您是第{{visit}}位访客
+    {% endif %}
+{% endblock %}

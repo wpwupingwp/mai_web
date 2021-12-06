@@ -49,10 +49,10 @@ def track():
     else:
         session['tracked'] = True
         if fl.current_user.is_anonymous:
-            username = 'guest'
+            user_id = -1
         else:
-            username = fl.current_user.username
-        visit = Visit(username, request.remote_addr, request.url,
+            user_id = fl.current_user.user_id
+        visit = Visit(user_id, request.remote_addr, request.url,
                       request.user_agent.string)
         db.session.add(visit)
         db.session.commit()
@@ -61,7 +61,13 @@ def track():
 @app.route('/')
 @app.route('/index')
 def index():
-    return f.render_template('index.html')
+    if fl.current_user.is_authenticated:
+        user = User.query.get(fl.current_user.user_id)
+        print(user.visit)
+        visit = len(user.visit)
+    else:
+        visit = Visit.query.count()
+    return f.render_template('index.html', visit=visit)
 
 
 @app.route('/readme')

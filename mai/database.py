@@ -24,7 +24,6 @@ class User(db.Model, fl.UserMixin):
     failed_login = db.Column(db.Integer, default=0)
     failed_bid = db.Column(db.Integer, default=0)
 
-    bider = db.relationship('Bid', backref='user')
     goods = db.relationship('Goods', backref='user')
     # sender_id = db.relationship('Message', backref='user')
 
@@ -64,6 +63,7 @@ class Goods(db.Model):
     sold = db.Column(db.Boolean, default=False)
     user_id = db.Column(db.Integer, db.ForeignKey('user.user_id'),
                         nullable=False)
+    bids = db.relationship('Bid', backref='goods')
 
     def __repr__(self):
         return f'{self.goods_id},{self.name}'
@@ -115,8 +115,8 @@ class Message(db.Model):
     is_read = db.Column(db.Boolean, default=False)
     is_report = db.Column(db.Boolean, default=False)
     is_deleted = db.Column(db.Boolean, default=False)
-    from_ = db.relationship('User', backref='sender', foreign_keys=[from_id])
-    to_ = db.relationship('User', backref='receiver', foreign_keys=[to_id])
+    from_ = db.relationship('User', backref='send', foreign_keys=[from_id])
+    to_ = db.relationship('User', backref='receive', foreign_keys=[to_id])
     # bid_msg = db.relationship('Message', backref='bid_msg', foreign_keys=[bid_id])
 
     def __init__(self, from_id, to_id, bid_id, content):
@@ -133,7 +133,7 @@ class MyModelView(ModelView):
 
     def is_accessible(self):
         return (fl.current_user.is_authenticated and
-                fl.current_user.username=='admin@example.com')
+                fl.current_user.username=='admin')
 
     def is_accessible_callback(self):
         return redirect('/')

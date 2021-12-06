@@ -36,9 +36,10 @@ def get_unread():
     if fl.current_user.is_anonymous:
         g.unread = 0
     else:
-        g.unread = Message.query.filter(and_(
-            Message.to_id==fl.current_user.user_id, not_(Message.is_read),
-            not_(Message.is_deleted))).count()
+        g.unread = Message.query.filter(
+            and_(Message.to_id==fl.current_user.user_id, not_(
+                Message.is_read), not_(Message.is_deleted))
+        ).count()
 
 
 @app.route('/')

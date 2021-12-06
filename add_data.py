@@ -4,8 +4,8 @@ try:
     db.create_all()
 except:
     pass
-if User.query.filter_by(username='admin@example.com').first() is None:
-    u = User('admin@example.com', '123456', '')
+if User.query.filter_by(username='admin').first() is None:
+    u = User('admin', '123456', '')
     db.session.add(u)
     db.session.commit()
 

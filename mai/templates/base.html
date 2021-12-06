@@ -46,7 +46,7 @@
                     <li class="nav-item">
                         <a class="nav-link" href="/auth/logout">退出({{current_user.username}})</a>
                     </li>
-                    {% if current_user.username=='admin@example.com' %}
+                    {% if current_user.username=='admin' %}
                     <li class="nav-item">
                         <a class="nav-link" href="/admin">后台管理</a>
                     </li>
@@ -90,4 +90,5 @@
     <p>Power by Flask 2.0.2 and Bootstrap 4 <br/>
         <span>2021.10.14</span></p>
 </footer>
+</body>
 </html>

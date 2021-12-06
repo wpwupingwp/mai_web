@@ -13,8 +13,7 @@ IMG = set('jpg jpe jpeg png gif svg bmp webp'.split())
 
 
 class UserForm(FlaskForm):
-    username = m.StringField('邮箱', validators=[
-        v.input_required(), v.email('无效的邮箱地址')])
+    username = m.StringField('用户名', validators=[v.input_required()])
     password = m.PasswordField('密码', validators=[
         v.input_required(), v.length(min=4)])
     password2 = m.PasswordField('密码确认', validators=[
@@ -26,8 +25,7 @@ class UserForm(FlaskForm):
 
 
 class LoginForm(FlaskForm):
-    username = m.StringField('邮箱', validators=[
-        v.input_required(), v.email()])
+    username = m.StringField('用户名', validators=[v.input_required()])
     password = m.PasswordField('密码', validators=[
         v.input_required(), v.length(min=4)])
     submit = m.SubmitField('提交')
@@ -57,6 +55,6 @@ class TransactionForm(FlaskForm):
     date = DateField('交易时间', validators=[v.input_required()])
     location = m.StringField('交易地点', validators=[v.input_required()])
     others = m.StringField('其他说明',
-                           validators=[v.input_required(), v.length(max=20)])
+                           validators=[v.length(max=20)])
     submit1 = m.SubmitField('预览信息')
     submit2 = m.SubmitField('发送信息')

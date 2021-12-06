@@ -188,6 +188,7 @@ def transaction(goods_id, bid_id):
         elif tf.submit2.data:
             msg = Message(seller.user_id, buyer.user_id, bid_id, text)
             db.session.add(msg)
+            goods.sold = True
             bid.is_buying = True
             db.session.commit()
         # db.session.commit()

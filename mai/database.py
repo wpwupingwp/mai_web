@@ -111,6 +111,7 @@ class Message(db.Model):
     bid_id = db.Column(db.Integer, db.ForeignKey('bid.bid_id'))
     date = db.Column(db.DateTime)
     content = db.Column(db.String(100))
+    is_accept = db.Column(db.Boolean, default=False)
     is_read = db.Column(db.Boolean, default=False)
     is_deleted = db.Column(db.Boolean, default=False)
     from_ = db.relationship('User', backref='sender', foreign_keys=[from_id])

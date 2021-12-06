@@ -186,7 +186,7 @@ def transaction(goods_id, bid_id):
         if tf.submit1.data:
             f.flash(text)
         elif tf.submit2.data:
-            msg = Message(seller.user_id, buyer.user_id, text)
+            msg = Message(seller.user_id, buyer.user_id, bid_id, text)
             db.session.add(msg)
             bid.is_buying = True
             db.session.commit()
@@ -237,6 +237,24 @@ def sent_message(user_id, page=1):
         page=page, per_page=per_page)
     return f.render_template('my_sent_message.html', message=message,
                              title="我的消息")
+
+@fl.login_required
+@auth.route('/message/accept/<int:message_id>')
+def accept_msg(message_id):
+    msg = Message.query.get(message_id)
+    if msg is None:
+        f.flash('消息不存在')
+    else:
+        if msg.to_id != fl.current_user.user_id:
+            f.flash('无权限操作')
+        else:
+            msg.is_accept = True
+            msg.is_read = True
+            # db.session.delete(goods)
+            db.session.commit()
+            f.flash('修改成功')
+    return f.redirect(f'/auth/message/{fl.current_user.user_id}')
+
 
 @fl.login_required
 @auth.route('/message/read/<int:message_id>')

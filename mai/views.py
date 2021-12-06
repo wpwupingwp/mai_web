@@ -13,6 +13,7 @@ from mai.auth import auth
 from mai.form import BidForm
 
 
+
 @app.route('/uploads/<filename>')
 def uploaded_file(filename):
     return f.send_from_directory(app.config['UPLOADED_PHOTOS_DEST'], filename)
@@ -32,10 +33,13 @@ def favicon():
 
 @app.before_request
 def get_unread():
-    g.unread = Message.query.filter(and_(
-        Message.to_id==fl.current_user.user_id, not_(Message.is_read),
-        not_(Message.is_deleted))).count()
-    print(g.unread)
+    if fl.current_user.is_anonymous:
+        g.unread = 0
+    else:
+        g.unread = Message.query.filter(and_(
+            Message.to_id==fl.current_user.user_id, not_(Message.is_read),
+            not_(Message.is_deleted))).count()
+
 
 @app.route('/')
 @app.route('/index')

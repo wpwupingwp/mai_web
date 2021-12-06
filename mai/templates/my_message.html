@@ -19,6 +19,11 @@
   {% else %}
     <tr>
   {% endif %}
+  {% if msg.is_read %}
+      <tr class="table-primary">
+  {% else %}
+      <tr>
+  {% endif %}
       <td>{{msg.message_id}}</td>
       <td>{{msg.from_}}</td>
       <td class="text-nowrap">{{msg.date.strftime('%Y-%m-%d %H:%M:%S')}}</td>
@@ -28,10 +33,13 @@
             {% if not msg.is_read %}
                 <a class="text-nowrap" href="/auth/message/read/{{msg.message_id}}">已读</a>
             {% endif %}
-            <a class="text-nowrap" href="/auth/message/reply/{{msg.message_id}}">回复</a>
+            {% if not msg.is_accept %}
+                <a class="text-nowrap" href="/auth/message/accept/{{msg.message_id}}">接受</a>
+            {% else %}
+                <a class="text-nowrap" href="/auth/message/report/{{msg.from_id}}/{{msg.message_id}}">举报</a>
+            {% endif %}
           {% endif %}
         <a class="text-nowrap" href="/auth/message/delete/{{msg.message_id}}">删除</a>
-        <a class="text-nowrap" href="/auth/message/report/{{msg.from_id}}/{{msg.message_id}}">举报</a>
       </td>
   {% endfor %}
   </tr>

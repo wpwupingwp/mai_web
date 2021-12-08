@@ -44,7 +44,8 @@ def login():
             fl.login_user(user)
             f.flash(f'登陆成功')
             old_visit = Visit.query.get(f.session['visit_id'])
-            db.session.delete(old_visit)
+            if old_visit is not None:
+                db.session.delete(old_visit)
             db.session.commit()
             f.session['tracked'] = False
             return f.redirect('/index')

@@ -79,8 +79,8 @@ def readme():
 @app.route('/goods_list/<int:page>')
 def goods_list(page=1):
     per_page = 6
-    pagination = Goods.query.filter_by(deleted=False, sold=False).paginate(
-        page=page, per_page=per_page)
+    pagination = Goods.query.filter_by(deleted=False, sold=False).order_by(
+        Goods.pub_date.desc()).paginate(page=page, per_page=per_page)
     return f.render_template('goods_list.html', pagination=pagination)
 
 

@@ -24,7 +24,7 @@
                 <img class="rounded d-block mx-auto"  src="{{goods.photo3}}" style="max-width:100%;max-height:100%; object-fit:contain;display: block;">
             {% endif %}
         </div>
-        <div class="col">
+        <div class="col-lg my-3">
             <ol class="list-group">
                 <li class="list-group-item active bg-success text-center">历史出价</li>
                 {% for bid, user in bids %}
@@ -42,10 +42,10 @@
             </ol>
             <div class="mx-auto my-3">
                 {% if current_user.is_authenticated %}
-                {% from "bootstrap/form.html" import render_form %}
-                {{render_form(inline_form, form_type="inline")}}
+                    {% from "bootstrap/form.html" import render_form %}
+                    {{render_form(inline_form, form_type="inline")}}
                 {% else %}
-                <span>登录后出价</span>
+                    <a href="/auth/login">登录后出价</a>
                 {% endif %}
             </div>
         </div>

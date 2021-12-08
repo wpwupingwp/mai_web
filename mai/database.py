@@ -78,7 +78,7 @@ class Goods(db.Model):
             goods_.highest_price = form.highest_price.data
             goods_.lowest_price = form.lowest_price.data
             goods_.expired_date = form.expired_date.data
-            goods_.pub_data = datetime.utcnow()
+            goods_.pub_date = datetime.now()
             goods_.user_id = user_id
         else:
             pass

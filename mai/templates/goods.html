@@ -7,6 +7,8 @@
         <li class="list-group-item">价格: {{"%0.2f"|format(goods.lowest_price)}} 至 {{"%0.2f"|format(goods.highest_price)}}元</li>
         <li class="list-group-item">原价：{{"%0.2f"|format(goods.original_price)}}</li>
         <li class="list-group-item">描述：{{goods.description}}</li>
+        <li class="list-group-item">发布人：{{goods.user}}</li>
+        <li class="list-group-item">发布日期：{{goods.pub_date.strftime('%Y-%m-%d %H:%M:%S')}}</li>
         <li class="list-group-item">截止日期：{{goods.expired_date}}</li>
     </ul>
     <hr/>

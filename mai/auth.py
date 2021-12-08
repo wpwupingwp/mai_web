@@ -6,7 +6,7 @@ import flask_login as fl
 from werkzeug.utils import secure_filename
 from sqlalchemy import not_
 from pathlib import Path
-from PIL import Image
+from PIL import Image, ImageOps
 
 from mai import app, lm, root
 from mai.form import UserForm, GoodsForm, LoginForm, TransactionForm
@@ -79,13 +79,19 @@ def register():
     return f.render_template('register.html', form=uf)
 
 
-def compress_photo(old_path: Path) -> (Path, Path):
+def compress_photo(old_path: Path) -> Path:
+    """
+    Compress and rotate image with PIL
+    Args:
+        old_path: Path
+    """
     small = 1024 * 1024
     if old_path.stat().st_size <= small:
         return old_path
     old = Image.open(old_path)
-    old.thumbnail((1024, 1024))
-    old.save(old_path, 'JPEG')
+    rotate = ImageOps.exif_transpose(old)
+    rotate.thumbnail((1024, 1024))
+    rotate.save(old_path, 'JPEG')
     return old_path
 
 

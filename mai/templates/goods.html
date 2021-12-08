@@ -12,8 +12,8 @@
         <li class="list-group-item">截止日期：{{goods.expired_date}}</li>
     </ul>
     <hr/>
-    <div class="row mx-auto">
-        <div class="row">
+    <div class="row mx-auto my-3">
+        <div class="col-lg">
             {% if goods.photo1 %}
                 <img class="rounded d-block mx-auto"  src="{{goods.photo1}}" style="max-width:100%;max-height:100%; object-fit:contain;display: block;">
             {% endif %}
@@ -24,7 +24,7 @@
                 <img class="rounded d-block mx-auto"  src="{{goods.photo3}}" style="max-width:100%;max-height:100%; object-fit:contain;display: block;">
             {% endif %}
         </div>
-        <div class="col-lg my-3">
+        <div class="col-md my-1">
             <ol class="list-group">
                 <li class="list-group-item active bg-success text-center">历史出价</li>
                 {% for bid, user in bids %}

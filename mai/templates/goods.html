@@ -31,7 +31,7 @@
                 <li class="list-group-item">
                     <span class="text-primary">{{bid.date.strftime('%Y-%m-%d %H:%M:%S')}}</span>
                     <span class="text-mutex">{{"%0.2f"|format(bid.price)}} 元</span>
-                    {% if current_user.username=='admin@example.com' %}
+                    {% if current_user.username==user.username %}
                         <span class="text-black">{{user}}</span>
                         <span class="text-black">
                             <a href="/auth/transaction/{{goods.goods_id}}/{{bid.bid_id}}">交易</a>

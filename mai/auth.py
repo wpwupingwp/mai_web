@@ -1,9 +1,12 @@
 #!/usr/bin/python3
 
+import uuid
 import flask as f
 import flask_login as fl
 from werkzeug.utils import secure_filename
-from sqlalchemy import not_, and_
+from sqlalchemy import not_
+from pathlib import Path
+from PIL import Image
 
 from mai import app, lm, root
 from mai.form import UserForm, GoodsForm, LoginForm, TransactionForm
@@ -76,6 +79,16 @@ def register():
     return f.render_template('register.html', form=uf)
 
 
+def compress_photo(old_path: Path) -> (Path, Path):
+    small = 1024 * 1024
+    if old_path.stat().st_size <= small:
+        return old_path
+    old = Image.open(old_path)
+    old.thumbnail((1024, 1024))
+    old.save(old_path, 'JPEG')
+    return old_path
+
+
 def upload(data, path) -> str:
     """
     Return '' if not exists.
@@ -88,10 +101,12 @@ def upload(data, path) -> str:
         return ''
     # relative path
     filename = secure_filename(data.filename)
+    unique_filename = str(uuid.uuid4()) + data.filename
     # absolute path
-    data.save(path/filename)
+    data.save(path/unique_filename)
+    small_file = compress_photo(path/unique_filename).name
     # relative path
-    url = f.url_for('uploaded_file', filename=filename)
+    url = f.url_for('uploaded_file', filename=small_file)
     return url
 
 
@@ -139,7 +154,7 @@ def edit_goods(goods_id):
         new.pop('csrf_token')
         new['photo1'] = upload(gf.photo1.data, img_path)
         new['photo2'] = upload(gf.photo2.data, img_path)
-        new['photo2'] = upload(gf.photo3.data, img_path)
+        new['photo3'] = upload(gf.photo3.data, img_path)
         #new['expired_date'] = gf.expired_date.data
         #new['no_bid'] = True if new['no_bid']=='y' else False
         Goods.query.filter_by(goods_id=goods_id).update(new)

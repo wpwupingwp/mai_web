@@ -52,8 +52,11 @@ def track():
             user_id = -1
         else:
             user_id = fl.current_user.user_id
-        visit = Visit(user_id, request.remote_addr, request.url,
-                      request.user_agent.string)
+        if request.headers.getlist('X-Forwarded-For'):
+            ip = request.headers.getlist('X-Forwarded-For')[0]
+        else:
+            ip = request.remote_addr
+        visit = Visit(user_id, ip, request.url, request.user_agent.string)
         db.session.add(visit)
         db.session.commit()
         session['visit_id'] = visit.visit_id

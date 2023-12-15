@@ -4,7 +4,7 @@ from flask_wtf import FlaskForm
 from flask_wtf.file import FileField, FileAllowed
 import wtforms as m
 from wtforms import validators as v
-from wtforms.fields.html5 import DateField
+from wtforms.fields import DateField
 
 
 # cannot use flask_upload, _uploads.uploaded_file is broken

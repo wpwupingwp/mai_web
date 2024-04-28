@@ -1,28 +1,25 @@
-
 [project]
-# PEP 621 project metadata
-# See https://www.python.org/dev/peps/pep-0621/
-dependencies = [
-    "Bootstrap-Flask>=2.3.0",
-    "Flask>=3.0.0",
-    "Flask-Admin>=1.6.1",
-    "Flask-Login>=0.6.2",
-    "Flask-Migrate>=3.1.0",
-    "Flask-WTF>=1.2.1",
-    "Flask-SQLAlchemy>=3.1.1",
-    "Pillow>=10.0.1",
-    "faker>=21.0.0",
-]
-requires-python = ">3.9"
 name = "mai_web"
 version = "0.1.0"
-description = "study and test on Flask"
+description = "flask project"
 authors = [
     {name = "wp", email = "wpwupingwp@outlook.com"},
 ]
+dependencies = [
+    "flask==3.0.0",
+    "pillow==10.1.0",
+    "bootstrap-flask==2.3.3",
+    "faker==21.0.0",
+    "flask-admin==1.6.1",
+    "flask-login==0.6.3",
+    "flask-migrate==4.0.5",
+    "flask-sqlalchemy==3.1.1",
+    "flask-wtf==1.2.1",
+]
+requires-python = ">3.10"
 readme = "README.md"
-license = {text = "AGPL"}
+license = {text = "AGPL-3"}
 
-[build-system]
-requires = ["setuptools>=61", "wheel"]
-build-backend = "setuptools.build_meta"
+
+[tool.pdm]
+distribution = false

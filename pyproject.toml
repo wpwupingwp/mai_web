@@ -7,7 +7,7 @@ authors = [
 ]
 dependencies = [
     "flask==3.0.0",
-    "pillow==10.1.0",
+    "pillow>=10.1.0",
     "bootstrap-flask==2.3.3",
     "faker==21.0.0",
     "flask-admin==1.6.1",
